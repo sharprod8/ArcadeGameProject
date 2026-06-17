@@ -4,22 +4,125 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public float moveSpeed = 5f;
 
+    [Header("Movement")]
+    public float moveSpeed = 5f;
     private float horizontalMovement;
-    
-    void Start()
-    {
-        
-    }
+
+    [Header("Jumping")]
+    public float jumpForce = 8f;
+    private bool jumpHeld;
+
+    [Header("Gravity")]
+    public float lowJumpGravity = 1.2f;
+    public float normalGravity = 2.5f;
+    public float fallGravity = 4f;
+
+    [Header("Ground Check")]
+    public Transform groundCheckPosition;
+    public Vector2 groundCheckSize = new Vector2(0.4f, 0.02f);
+    public LayerMask groundLayer;
 
     void Update()
     {
-        rb.linearVelocity = new Vector2(horizontalMovement * moveSpeed, rb.linearVelocity.y);
+        ApplyMovement();
+        ApplyGravity();
+        CheckForSkidding();
+    }
+
+    private void ApplyGravity()
+    {
+        if (rb.linearVelocity.y > 0) // Rising
+        {
+            rb.gravityScale = jumpHeld ? lowJumpGravity : normalGravity;
+        }
+        else if (rb.linearVelocity.y < 0) // Falling
+        {
+            rb.gravityScale = fallGravity;
+        }
+        else
+        {
+            rb.gravityScale = normalGravity;
+        }
+    }
+
+    private void ApplyMovement()
+    {
+        float targetSpeed = horizontalMovement * moveSpeed;
+        float speedDifference = targetSpeed - rb.linearVelocity.x;
+
+        float accelRate;
+
+        if (IsGrounded())
+        {
+            if (Mathf.Abs(targetSpeed) > 0.01f)
+            {
+                accelRate = 2f; //accel on ground
+            }
+            else
+            {
+                accelRate = 3f; //decel on ground
+            }
+        }
+        else
+        {
+            if (Mathf.Abs(targetSpeed) > 0.01f)
+            {
+                accelRate = 3f;   //accel in air
+            }
+            else
+            {
+                accelRate = 4f;   //decel in air
+            }
+        }
+
+        float movement = accelRate * speedDifference;
+        rb.AddForce(Vector2.right * movement);
     }
 
     public void Move(InputAction.CallbackContext context)
     {
         horizontalMovement = context.ReadValue<Vector2>().x;
+    }
+
+    public void Jump(InputAction.CallbackContext context)
+    {
+        if (context.started && IsGrounded())
+        {
+            jumpHeld = true;
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        }
+
+        if (context.canceled)
+        {
+            jumpHeld = false;
+        }
+    }
+
+    private void CheckForSkidding()
+    {
+        bool changingDirection = false;
+
+        if (horizontalMovement > 0 && rb.linearVelocity.x < 0)
+        {
+            changingDirection = true;
+        }
+        else if (horizontalMovement < 0 && rb.linearVelocity.x > 0)
+        {
+            changingDirection = true;
+        }
+
+        bool isSkidding = IsGrounded() && changingDirection;
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.OverlapBox(groundCheckPosition.position, groundCheckSize, 0f, groundLayer);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(groundCheckPosition.position, groundCheckSize);
     }
 }

@@ -22,21 +22,34 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheckPosition;
     public Vector2 groundCheckSize = new Vector2(0.4f, 0.02f);
     public LayerMask groundLayer;
+    
+    [SerializeField] private bool isSkidding;
 
     void Update()
     {
+        CheckForSkidding();
+    }
+
+    private void FixedUpdate()
+    {
         ApplyMovement();
         ApplyGravity();
-        CheckForSkidding();
     }
 
     private void ApplyGravity()
     {
-        if (rb.linearVelocity.y > 0) // Rising
+        if (rb.linearVelocity.y > 0) //rising
         {
-            rb.gravityScale = jumpHeld ? lowJumpGravity : normalGravity;
+            if (jumpHeld)
+            {
+                rb.gravityScale = lowJumpGravity;
+            }
+            else
+            {
+                rb.gravityScale = normalGravity;
+            }
         }
-        else if (rb.linearVelocity.y < 0) // Falling
+        else if (rb.linearVelocity.y < 0) //falling
         {
             rb.gravityScale = fallGravity;
         }
@@ -93,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
 
-        if (context.canceled)
+        if (context.canceled)                                                                                                                                      
         {
             jumpHeld = false;
         }
@@ -111,8 +124,10 @@ public class PlayerMovement : MonoBehaviour
         {
             changingDirection = true;
         }
+        
+        isSkidding = IsGrounded() && changingDirection;
 
-        bool isSkidding = IsGrounded() && changingDirection;
+        Debug.Log($"Skid:{isSkidding} Ground:{IsGrounded()} Input:{horizontalMovement} Vel:{rb.linearVelocity.x}");
     }
 
     private bool IsGrounded()

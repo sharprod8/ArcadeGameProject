@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public ParticleSystem skidFX;
 
     [Header("Movement")]
     public float moveSpeed = 5f;

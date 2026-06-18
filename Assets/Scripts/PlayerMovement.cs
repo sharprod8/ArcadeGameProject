@@ -128,6 +128,11 @@ public class PlayerMovement : MonoBehaviour
         
         isSkidding = IsGrounded() && changingDirection;
 
+        if (isSkidding)
+        {
+            skidFX.Play();
+        }
+
         Debug.Log($"Skid:{isSkidding} Ground:{IsGrounded()} Input:{horizontalMovement} Vel:{rb.linearVelocity.x}");
     }
 

@@ -1,0 +1,83 @@
+using UnityEngine;
+using UnityEngine.Tilemaps;
+
+public class BlockManager : MonoBehaviour
+{
+    public Tilemap tilemap;
+
+    //uses Vector3Int instead of Vector3 because tiles are hwole numbers
+
+    public void HitBlock(Vector3 hitPosition)
+    {
+        Vector3Int tilePos = tilemap.WorldToCell(hitPosition);
+        BlockTile tile = tilemap.GetTile<BlockTile>(tilePos);
+
+        if (tile == null || tile.data == null)
+        {
+            return;
+        }
+
+        BlockData data = tile.data;
+
+        switch (data.blockType)
+        {
+            case BlockData.BlockType.Normal:
+                BumpTile(tilePos);
+                break;
+
+            case BlockData.BlockType.OneTime:
+                BumpTile(tilePos);
+                UseTile(tilePos, data);
+                break;
+
+            case BlockData.BlockType.Brick:
+                BreakTile(tilePos);
+                break;
+
+            case BlockData.BlockType.Solid:
+                //nothing
+                break;
+
+            case BlockData.BlockType.Dangerous:
+                HurtPlayer();
+                break;
+
+            case BlockData.BlockType.Special:
+                TriggerSpecial(tilePos, data); //just for now
+                break;
+        }
+    }
+
+    private void BumpTile(Vector3Int pos)
+    {
+        //bump
+    }
+
+    private void UseTile(Vector3Int pos, BlockData data)
+    {
+        if (data.usedSprite != null)
+        {
+            tilemap.SetTile(pos, null); //remove old tile
+            BlockTile newTile = ScriptableObject.CreateInstance<BlockTile>();
+            newTile.sprite = data.usedSprite;
+            newTile.data = data;
+            tilemap.SetTile(pos, newTile);
+        }
+    }
+
+    private void BreakTile(Vector3Int pos)
+    {
+        tilemap.SetTile(pos, null);
+        //effect
+    }
+
+    private void HurtPlayer()
+    {
+        //hurt the homie
+    }
+
+    private void TriggerSpecial(Vector3Int pos, BlockData data)
+    {
+        //POW, powers, mods, allat
+    }
+}

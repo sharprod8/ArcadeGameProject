@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     {
         ApplyMovement();
         ApplyGravity();
+        CheckBlockHit();
     }
 
     private void ApplyGravity()
@@ -132,8 +134,6 @@ public class PlayerMovement : MonoBehaviour
         {
             skidFX.Play();
         }
-
-        Debug.Log($"Skid:{isSkidding} Ground:{IsGrounded()} Input:{horizontalMovement} Vel:{rb.linearVelocity.x}");
     }
 
     private bool IsGrounded()
@@ -146,4 +146,26 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(groundCheckPosition.position, groundCheckSize);
     }
+
+    private void CheckBlockHit()
+    {
+        if (rb.linearVelocity.y <= 0)
+            return;
+
+        Vector2 boxSize = new Vector2(0.5f, 0.1f);
+        Vector2 boxCentre = new Vector2(transform.position.x, transform.position.y + 0.6f);
+
+        Collider2D hit = Physics2D.OverlapBox(boxCentre, boxSize, 0f);
+
+        if (hit != null && hit.TryGetComponent(out Tilemap tilemap))
+        {
+            BlockManager manager = tilemap.GetComponent<BlockManager>();
+            if (manager != null)
+            {
+                manager.HitBlock(boxCentre);
+                Debug.Log($"Hit block at {boxCentre}");
+            }
+        }
+    }
+
 }

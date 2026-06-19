@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7aa90a3c13f3c54e960194bf950f175, type: 3}
+  m_Name: SolidBlockData
+  m_EditorClassIdentifier: 
+  blockType: 3
+  canBeBumped: 0
+  canBreak: 0
+  oneTimeUse: 0
+  hurtsPlayer: 0
+  usedSprite: {fileID: 0}

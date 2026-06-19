@@ -1,9 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class BlockManager : MonoBehaviour
 {
     public Tilemap tilemap;
+
+    [SerializeField] private float bumpHeight = 0.1f;
+    [SerializeField] private float bumpDuration = 0.1f;
 
     //uses Vector3Int instead of Vector3 because tiles are hwole numbers
 
@@ -50,7 +56,7 @@ public class BlockManager : MonoBehaviour
 
     private void BumpTile(Vector3Int pos)
     {
-        //bump
+        //StartCoroutine(BumpCoroutine(pos));
     }
 
     private void UseTile(Vector3Int pos, BlockData data)
@@ -79,5 +85,11 @@ public class BlockManager : MonoBehaviour
     private void TriggerSpecial(Vector3Int pos, BlockData data)
     {
         //POW, powers, mods, allat
+    }
+
+    //private IEnumerator BumpCoroutine(Vector3Int pos)
+    void Start()
+    {
+        //e
     }
 }

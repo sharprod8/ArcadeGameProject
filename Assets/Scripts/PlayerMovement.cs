@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     
     [SerializeField] private bool isSkidding;
+    [SerializeField] private bool hasHitBlock;
 
     void Update()
     {
@@ -147,12 +148,15 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawWireCube(groundCheckPosition.position, groundCheckSize);
     }
 
-    private void CheckBlockHit()
+    /*private void CheckBlockHit()
     {
         if (rb.linearVelocity.y <= 0)
             return;
 
-        Vector2 boxSize = new Vector2(0.5f, 0.1f);
+        if (hasHitBlock)
+            return;
+
+        Vector2 boxSize = new Vector2(0.2f, 0.1f);
         Vector2 boxCentre = new Vector2(transform.position.x, transform.position.y + 0.6f);
 
         Collider2D[] hit = Physics2D.OverlapBoxAll(boxCentre, boxSize, 0f);
@@ -169,10 +173,46 @@ public class PlayerMovement : MonoBehaviour
                     {
                         manager.HitBlock(boxCentre);
                         Debug.Log($"Hit block at {boxCentre}");
+                        break;
                     }
                 }
             }
         }
-    }
+    }*/
 
+    private void CheckBlockHit()
+    {
+        Vector2 boxSize = new Vector2(0.2f, 0.1f);
+        Vector2 boxCentre = new Vector2(transform.position.x, transform.position.y + 0.6f);
+
+        Collider2D[] hit = Physics2D.OverlapBoxAll(boxCentre, boxSize, 0f);
+
+        Tilemap overlappedTilemap = null;
+        for (int i = 0; i < hit.Length; i++)
+        {
+            if (hit[i].CompareTag("Tilemap"))
+            {
+                overlappedTilemap = hit[i].GetComponent<Tilemap>();
+                if (overlappedTilemap != null) break;
+            }
+        }
+
+        bool overlappingBlock = overlappedTilemap != null;
+
+        if (overlappingBlock && rb.linearVelocity.y > 0 && !hasHitBlock)
+        {
+            BlockManager manager = overlappedTilemap.GetComponent<BlockManager>();
+            if (manager != null)
+            {
+                manager.HitBlock(boxCentre);
+                Debug.Log($"Hit block at {boxCentre}");
+                hasHitBlock = true;
+            }
+        }
+
+        if (!overlappingBlock)
+        {
+            hasHitBlock = false;
+        }
+    }
 }

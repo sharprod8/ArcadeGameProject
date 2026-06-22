@@ -11,6 +11,8 @@ public class BlockManager : MonoBehaviour
     [SerializeField] private float bumpHeight = 0.1f;
     [SerializeField] private float bumpDuration = 0.1f;
 
+    [SerializeField] private TileBase solidBlockTile;
+
     //uses Vector3Int instead of Vector3 because tiles are hwole numbers
 
     public void HitBlock(Vector3 hitPosition)
@@ -37,10 +39,11 @@ public class BlockManager : MonoBehaviour
 
             case BlockData.BlockType.OneTime:
                 BumpTile(tilePos);
-                UseTile(tilePos, data);
+                tilemap.SetTile(tilePos, solidBlockTile);
                 break;
 
             case BlockData.BlockType.Brick:
+                BumpTile(tilePos);
                 BreakTile(tilePos);
                 break;
 
@@ -49,10 +52,12 @@ public class BlockManager : MonoBehaviour
                 break;
 
             case BlockData.BlockType.Dangerous:
+                BumpTile(tilePos);
                 HurtPlayer();
                 break;
 
             case BlockData.BlockType.Special:
+                BumpTile(tilePos);
                 TriggerSpecial(tilePos, data); //just for now
                 break;
         }

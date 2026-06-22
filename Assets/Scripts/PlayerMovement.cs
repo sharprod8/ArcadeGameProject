@@ -182,7 +182,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckBlockHit()
     {
-        Vector2 boxSize = new Vector2(0.2f, 0.1f);
+        Vector2 boxSize = new Vector2(0.8f, 0.1f);
         Vector2 boxCentre = new Vector2(transform.position.x, transform.position.y + 0.6f);
 
         Collider2D[] hit = Physics2D.OverlapBoxAll(boxCentre, boxSize, 0f);

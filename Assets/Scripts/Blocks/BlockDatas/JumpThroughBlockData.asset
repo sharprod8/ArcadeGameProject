@@ -17,4 +17,5 @@ MonoBehaviour:
   canBreak: 0
   oneTimeUse: 0
   hurtsPlayer: 0
+  canJumpThrough: 1
   usedSprite: {fileID: 0}

@@ -859,7 +859,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 793297288}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -886,8 +886,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: 0, y: 0.017745337}
+  m_Radius: 0.5177453
 --- !u!114 &793297298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4593,8 +4593,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1697167808}
-  bumpHeight: 0.1
-  bumpDuration: 0.1
+  bumpHeight: 0.2
+  bumpDuration: 0.2
 --- !u!1001 &1980067173
 PrefabInstance:
   m_ObjectHideFlags: 0

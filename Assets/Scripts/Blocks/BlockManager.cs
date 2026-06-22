@@ -15,11 +15,14 @@ public class BlockManager : MonoBehaviour
 
     public void HitBlock(Vector3 hitPosition)
     {
-        Vector3Int tilePos = tilemap.WorldToCell(hitPosition);
+        Vector3 slightlyHigherHitPosition = hitPosition + new Vector3(0f, tilemap.cellSize.y * 0.5f, 0f);
+        Vector3Int tilePos = tilemap.WorldToCell(slightlyHigherHitPosition);
+
         BlockTile tile = tilemap.GetTile<BlockTile>(tilePos);
 
         if (tile == null || tile.data == null)
         {
+            Debug.Log("Tile considerd null");
             return;
         }
 
@@ -29,6 +32,7 @@ public class BlockManager : MonoBehaviour
         {
             case BlockData.BlockType.Normal:
                 BumpTile(tilePos);
+                Debug.Log("normal");
                 break;
 
             case BlockData.BlockType.OneTime:
@@ -57,7 +61,7 @@ public class BlockManager : MonoBehaviour
     private void BumpTile(Vector3Int pos)
     {
         StartCoroutine(BumpCoroutine(pos));
-        Debug.Log("RanMatrix");
+        Debug.Log("Ran Matrix");
     }
 
     private void UseTile(Vector3Int pos, BlockData data)
@@ -70,6 +74,14 @@ public class BlockManager : MonoBehaviour
             newTile.data = data;
             tilemap.SetTile(pos, newTile);
         }
+    }
+
+    private void JumpThroughTile()
+    {
+        if (tilemap == null)
+            return;
+
+
     }
 
     private void BreakTile(Vector3Int pos)
@@ -100,29 +112,42 @@ public class BlockManager : MonoBehaviour
         //everythinge else is zero bump is only vertical
         Vector3 bumpPos = originalPos + new Vector3(0, bumpHeight, 0);
 
-        float x = 0f;
+        float x = bumpDuration / 2f;
+        //to animate first half up and second half down
         
         //animate
-        LeanTween.value(0f, 1f, bumpDuration).setOnUpdate((float value) =>
+        LeanTween.value(0f, 1f, x).setOnUpdate((float value) =>
         {
-            //anim
-
-            x = value;
-
-            Vector3 newPos = Vector3.Lerp(originalPos, bumpPos, x);
+            Vector3 newPos = Vector3.Lerp(originalPos, bumpPos, value);
 
             //new matrix
             Matrix4x4 matrix4X4 = originalMatrix;
             matrix4X4.SetColumn(3, new Vector4(newPos.x, newPos.y, newPos.z, 1));
 
+            //set matrix and pos
             tilemap.SetTransformMatrix(pos, matrix4X4);
         }
         ).setOnComplete(()=>
         {
-            tilemap.SetTransformMatrix(pos, originalMatrix);
+            LeanTween.value(0f, 1f, x).setOnUpdate((float value) =>
+            {
+                Vector3 newPos = Vector3.Lerp(bumpPos, originalPos, value);
+
+                //new matrix
+                Matrix4x4 matrix4X4 = originalMatrix;
+                matrix4X4.SetColumn(3, new Vector4(newPos.x, newPos.y, newPos.z, 1));
+
+                //set matrix and pos
+                tilemap.SetTransformMatrix(pos, matrix4X4);
+            }
+            ).setOnComplete(() =>
+            {
+                tilemap.SetTransformMatrix(pos, originalMatrix);
+            });
         }
         );
 
         yield return new WaitForSeconds(bumpDuration);
+        tilemap.SetTransformMatrix(pos, originalMatrix);
     }
 }

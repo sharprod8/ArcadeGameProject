@@ -20,6 +20,7 @@ public class BlockData : ScriptableObject
     public bool canBreak = false;
     public bool oneTimeUse = false;
     public bool hurtsPlayer = false;
+    public bool canJumpThrough = false;
 
     public Sprite usedSprite;
 }

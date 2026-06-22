@@ -17,4 +17,5 @@ MonoBehaviour:
   canBreak: 0
   oneTimeUse: 1
   hurtsPlayer: 0
-  usedSprite: {fileID: 0}
+  canJumpThrough: 0
+  usedSprite: {fileID: 21300000, guid: 1efb1c6e83fa04440bd7b41b748775df, type: 3}

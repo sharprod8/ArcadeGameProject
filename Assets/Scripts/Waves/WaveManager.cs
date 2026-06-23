@@ -19,6 +19,8 @@ public class WaveManager : MonoBehaviour
 
     private void Start()
     {
+        RunningOpeningWaveCounterAnimation = true;
+        
         waveCounterCG.alpha = 0f;
         waveCounter = 1;
         waveCounterUItext = waveCounterUI.GetComponentInChildren<TextMeshProUGUI>();
@@ -30,7 +32,7 @@ public class WaveManager : MonoBehaviour
 
     private void PlayOpeningWaveCounterAnimation()
     {
-        
+
         ResetWaveCounterPosition();
 
         if (waveCounterCentered)
@@ -60,10 +62,13 @@ public class WaveManager : MonoBehaviour
     public void AdvanceWave()
     {
         if (RunningOpeningWaveCounterAnimation)
+        {
             Debug.Log("Didn't advance wave, wait for animation first");
             return;
-        
+        }
+
         waveCounter += 1;
+        UpdateWaveUI();
         StartWave();
     }
 
@@ -71,5 +76,10 @@ public class WaveManager : MonoBehaviour
     {
         PlayOpeningWaveCounterAnimation();
         RunningOpeningWaveCounterAnimation = true;
+    }
+
+    void UpdateWaveUI()
+    {
+        waveCounterUItext.text = $"WAVE {waveCounter}";
     }
 }

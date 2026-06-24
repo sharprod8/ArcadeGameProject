@@ -13,18 +13,18 @@ public class BlockManager : MonoBehaviour
 
     [SerializeField] private TileBase solidBlockTile;
 
+    [SerializeField] private GameObject coinPrefab;
+
     //uses Vector3Int instead of Vector3 because tiles are hwole numbers
 
-    public void HitBlock(Vector3 hitPosition)
+    public void HitBlock(Vector3Int tilePos)
     {
-        Vector3 slightlyHigherHitPosition = hitPosition + new Vector3(0f, tilemap.cellSize.y * 0.5f, 0f);
-        Vector3Int tilePos = tilemap.WorldToCell(slightlyHigherHitPosition);
-
         BlockTile tile = tilemap.GetTile<BlockTile>(tilePos);
+
 
         if (tile == null || tile.data == null)
         {
-            Debug.Log("Tile considerd null");
+            Debug.Log("Tile considered null at " + tilePos);
             return;
         }
 
@@ -39,12 +39,12 @@ public class BlockManager : MonoBehaviour
 
             case BlockData.BlockType.OneTime:
                 BumpTile(tilePos);
+                SpawnCoin(tilePos);
                 tilemap.SetTile(tilePos, solidBlockTile);
                 break;
 
             case BlockData.BlockType.Brick:
-                BumpTile(tilePos);
-                BreakTile(tilePos);
+                StartCoroutine(BumpThenBreak(tilePos));
                 break;
 
             case BlockData.BlockType.Solid:
@@ -95,10 +95,37 @@ public class BlockManager : MonoBehaviour
         //effect
     }
 
+    private void SpawnCoin(Vector3Int pos)
+    {
+        Vector3 basePos = tilemap.GetCellCenterWorld(pos);
+
+        GameObject coin = Instantiate(coinPrefab, basePos, Quaternion.identity);
+
+        float upHeight = 1f;
+        float duration = 0.3f;
+
+        Vector3 upPos = basePos + Vector3.up * upHeight;
+        Vector3 finalPos = basePos + Vector3.up * (tilemap.cellSize.y * 0.9f);
+
+        LeanTween.move(coin, upPos, duration * 0.5f).setEaseOutQuad().setOnComplete(() =>
+        {
+            LeanTween.move(coin, finalPos, duration * 0.5f).setEaseInQuad();
+        }
+        );
+    }
+
+
     private void HurtPlayer()
     {
         //hurt the homie
     }
+
+    private IEnumerator BumpThenBreak(Vector3Int pos)
+    {
+        yield return StartCoroutine(BumpCoroutine(pos));
+        BreakTile(pos);
+    }
+
 
     private void TriggerSpecial(Vector3Int pos, BlockData data)
     {
@@ -124,6 +151,8 @@ public class BlockManager : MonoBehaviour
         LeanTween.value(0f, 1f, x).setOnUpdate((float value) =>
         {
             Vector3 newPos = Vector3.Lerp(originalPos, bumpPos, value);
+
+            CheckEnemiesAbove(pos);
 
             //new matrix
             Matrix4x4 matrix4X4 = originalMatrix;
@@ -155,4 +184,23 @@ public class BlockManager : MonoBehaviour
         yield return new WaitForSeconds(bumpDuration);
         tilemap.SetTransformMatrix(pos, originalMatrix);
     }
+    private void CheckEnemiesAbove(Vector3Int pos)
+    {
+        Vector3 worldPos = tilemap.GetCellCenterWorld(pos);
+
+        Vector2 boxSize = new Vector2(0.9f, 0.5f);
+        Vector2 boxCenter = worldPos + new Vector3(0, tilemap.cellSize.y, 0);
+
+        Collider2D[] hits = Physics2D.OverlapBoxAll(boxCenter, boxSize, 0f);
+
+        foreach (var hit in hits)
+        {
+            EnemyBase enemy = hit.GetComponent<EnemyBase>();
+            if (enemy != null)
+            {
+                enemy.KnockOver();
+            }
+        }
+    }
+
 }

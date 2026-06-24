@@ -148,71 +148,99 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawWireCube(groundCheckPosition.position, groundCheckSize);
     }
 
-    /*private void CheckBlockHit()
-    {
-        if (rb.linearVelocity.y <= 0)
-            return;
-
-        if (hasHitBlock)
-            return;
-
-        Vector2 boxSize = new Vector2(0.2f, 0.1f);
-        Vector2 boxCentre = new Vector2(transform.position.x, transform.position.y + 0.6f);
-
-        Collider2D[] hit = Physics2D.OverlapBoxAll(boxCentre, boxSize, 0f);
-        for (int i = 0; i < hit.Length; i++)
-        {
-            if (hit[i].CompareTag("Tilemap"))
-            {
-                Tilemap tilemap = hit[i].GetComponent<Tilemap>();
-
-                if (tilemap != null)
-                {
-                    BlockManager manager = tilemap.GetComponent<BlockManager>();
-                    if (manager != null)
-                    {
-                        manager.HitBlock(boxCentre);
-                        Debug.Log($"Hit block at {boxCentre}");
-                        break;
-                    }
-                }
-            }
-        }
-    }*/
-
     private void CheckBlockHit()
     {
-        Vector2 boxSize = new Vector2(0.8f, 0.1f);
+        if (rb.linearVelocity.y <= 0)
+        {
+            hasHitBlock = false;
+        }
+
+        if (rb.linearVelocity.y <= 0 || hasHitBlock)
+            return;
+
+        Vector2 boxSize = new Vector2(0.5f, 0.1f);
         Vector2 boxCentre = new Vector2(transform.position.x, transform.position.y + 0.6f);
 
-        Collider2D[] hit = Physics2D.OverlapBoxAll(boxCentre, boxSize, 0f);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(boxCentre, boxSize, 0f);
 
         Tilemap overlappedTilemap = null;
-        for (int i = 0; i < hit.Length; i++)
+
+        for (int i = 0; i < hits.Length; i++)
         {
-            if (hit[i].CompareTag("Tilemap"))
+            if (hits[i].CompareTag("Tilemap"))
             {
-                overlappedTilemap = hit[i].GetComponent<Tilemap>();
+                overlappedTilemap = hits[i].GetComponent<Tilemap>();
                 if (overlappedTilemap != null) break;
             }
         }
 
-        bool overlappingBlock = overlappedTilemap != null;
+        if (overlappedTilemap == null)
+            return;
 
-        if (overlappingBlock && rb.linearVelocity.y > 0 && !hasHitBlock)
+        BlockManager manager = overlappedTilemap.GetComponent<BlockManager>();
+        if (manager == null)
+            return;
+
+        Vector3Int cellPos = overlappedTilemap.WorldToCell(boxCentre);
+
+        //player hits the top of its current cell instead of the bottom of the target cell, so this just counters that
+        cellPos += Vector3Int.up;
+
+        //tries to hit the cell
+        Vector3Int chosenCell = cellPos;
+        BlockTile tile = overlappedTilemap.GetTile<BlockTile>(cellPos);
+
+        if (tile == null)
         {
-            BlockManager manager = overlappedTilemap.GetComponent<BlockManager>();
-            if (manager != null)
+            //checks nearby cells
+            Vector3Int leftCell = cellPos + new Vector3Int(-1, 0, 0);
+            Vector3Int rightCell = cellPos + new Vector3Int(1, 0, 0);
+
+            BlockTile leftTile = overlappedTilemap.GetTile<BlockTile>(leftCell);
+            BlockTile rightTile = overlappedTilemap.GetTile<BlockTile>(rightCell);
+
+            float playerX = transform.position.x;
+            bool hasLeft = leftTile != null;
+            bool hasRight = rightTile != null;
+
+            if (!hasLeft && !hasRight)
             {
-                manager.HitBlock(boxCentre);
-                Debug.Log($"Hit block at {boxCentre}");
-                hasHitBlock = true;
+                return;
+            }
+            else if (hasLeft && !hasRight)
+            {
+                chosenCell = leftCell;
+            }
+            else if (!hasLeft && hasRight)
+            {
+                chosenCell = rightCell;
+            }
+            else
+            {
+                //choose cell closest to player
+                Vector3 leftWorld = overlappedTilemap.GetCellCenterWorld(leftCell);
+                Vector3 rightWorld = overlappedTilemap.GetCellCenterWorld(rightCell);
+
+                float distLeft = Mathf.Abs(playerX - leftWorld.x);
+                float distRight = Mathf.Abs(playerX - rightWorld.x);
+
+                chosenCell = distLeft <= distRight ? leftCell : rightCell;
             }
         }
 
-        if (!overlappingBlock)
+        manager.HitBlock(chosenCell);
+        Debug.Log($"hit block at cell: {chosenCell}");
+        hasHitBlock = true;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        EnemyBase enemy = collision.collider.GetComponent<EnemyBase>();
+
+        if (enemy != null && enemy.isKnockedOver)
         {
-            hasHitBlock = false;
+            enemy.Die();
         }
     }
+
 }

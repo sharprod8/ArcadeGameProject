@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73f2b09b67b240940a74041eb435b91c, type: 3}
+  m_Name: Stage3
+  m_EditorClassIdentifier: 
+  waves:
+  - waveType: 0
+    enemies:
+    - enemyPrefab: {fileID: 6444363785698686179, guid: 9b8f2bbbb83140645a4158bd88cd8103, type: 3}
+      count: 3
+      spawnDelay: 3
+  - waveType: 0
+    enemies:
+    - enemyPrefab: {fileID: 6444363785698686179, guid: 9b8f2bbbb83140645a4158bd88cd8103, type: 3}
+      count: 5
+      spawnDelay: 3
+  - waveType: 0
+    enemies:
+    - enemyPrefab: {fileID: 6444363785698686179, guid: 9b8f2bbbb83140645a4158bd88cd8103, type: 3}
+      count: 5
+      spawnDelay: 3
+    - enemyPrefab: {fileID: 4941464067969549382, guid: 74eadb1b8fba2bd4e96483a1035e143e, type: 3}
+      count: 2
+      spawnDelay: 4
+  - waveType: 0
+    enemies:
+    - enemyPrefab: {fileID: 6444363785698686179, guid: 9b8f2bbbb83140645a4158bd88cd8103, type: 3}
+      count: 6
+      spawnDelay: 3
+    - enemyPrefab: {fileID: 4941464067969549382, guid: 74eadb1b8fba2bd4e96483a1035e143e, type: 3}
+      count: 3
+      spawnDelay: 4
+  - waveType: 0
+    enemies:
+    - enemyPrefab: {fileID: 6444363785698686179, guid: 9b8f2bbbb83140645a4158bd88cd8103, type: 3}
+      count: 7
+      spawnDelay: 4
+    - enemyPrefab: {fileID: 4941464067969549382, guid: 74eadb1b8fba2bd4e96483a1035e143e, type: 3}
+      count: 5
+      spawnDelay: 5

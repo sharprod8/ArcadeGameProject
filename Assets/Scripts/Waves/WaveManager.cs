@@ -6,7 +6,6 @@ public class WaveManager : MonoBehaviour
 {
     public GameObject waveCounterUI;
     public CanvasGroup waveCounterCG;
-    public int waveCounter;
 
     private TextMeshProUGUI waveCounterUItext;
     public Transform screenCenter;
@@ -17,16 +16,27 @@ public class WaveManager : MonoBehaviour
     private bool waveCounterCentered;
     private bool RunningOpeningWaveCounterAnimation;
 
+    private int currentWaveNumber = 1;
+
+    private void Awake()
+    {
+        waveCounterCG.alpha = 0f;
+        waveCounterUItext = waveCounterUI.GetComponent<TextMeshProUGUI>();
+
+        if (waveCounterUItext == null)
+            waveCounterUItext = waveCounterUI.GetComponentInChildren<TextMeshProUGUI>();
+    }
+
     private void Start()
     {
         RunningOpeningWaveCounterAnimation = true;
-        
-        waveCounterCG.alpha = 0f;
-        waveCounter = 1;
-        waveCounterUItext = waveCounterUI.GetComponentInChildren<TextMeshProUGUI>();
-
         ResetWaveCounterPosition();
+        PlayOpeningWaveCounterAnimation();
+    }
 
+    public void ShowWave(int waveNumber)
+    {
+        waveCounterUItext.text = $"WAVE {waveNumber}";
         PlayOpeningWaveCounterAnimation();
     }
 
@@ -59,27 +69,22 @@ public class WaveManager : MonoBehaviour
         waveCounterCentered = true;
     }
 
-    public void AdvanceWave()
+    public void ShowNextWaveUI()
     {
-        if (RunningOpeningWaveCounterAnimation)
-        {
-            Debug.Log("Didn't advance wave, wait for animation first");
-            return;
-        }
-
-        waveCounter += 1;
+        currentWaveNumber++;
         UpdateWaveUI();
-        StartWave();
-    }
-
-    public void StartWave()
-    {
         PlayOpeningWaveCounterAnimation();
-        RunningOpeningWaveCounterAnimation = true;
     }
 
-    void UpdateWaveUI()
+    private void UpdateWaveUI()
     {
-        waveCounterUItext.text = $"WAVE {waveCounter}";
+        waveCounterUItext.text = $"WAVE {currentWaveNumber}";
+    }
+
+    public void OnWaveStarted(int waveNumber)
+    {
+        currentWaveNumber = waveNumber;
+        UpdateWaveUI();
+        PlayOpeningWaveCounterAnimation();
     }
 }

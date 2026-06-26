@@ -64,7 +64,7 @@ public class EnemySpawner : MonoBehaviour
         EnemyBase enemy = thingy.GetComponent<EnemyBase>();
         enemy.spawner = this;
 
-        enemy.SetStartingDirection(pipe);
+        //enemy.SetStartingDirection(pipe);
 
         if (type == WaveData.WaveType.Boss)
         {

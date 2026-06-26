@@ -5,15 +5,15 @@ public class LadybugEnemy : EnemyBase
     private float hoverTimer;
     private bool hovering;
 
-    protected override void Start()
+    /*protected override void Start()
     {
         base.Start();
         baseSpeed = 1.5f;
         currentSpeed = baseSpeed;
         usesWallDetection = true;
-    }
+    }*/
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         if (isKnockedOver) return;
 
@@ -36,11 +36,11 @@ public class LadybugEnemy : EnemyBase
         {
             rb.linearVelocity = new Vector2(direction * currentSpeed, rb.linearVelocity.y);
         }
-    }
+    }*/
 
-    public override void KnockOver()
+    /*public override void KnockOver()
     {
         if (hovering) return;
         base.KnockOver();
-    }
+    }*/
 }

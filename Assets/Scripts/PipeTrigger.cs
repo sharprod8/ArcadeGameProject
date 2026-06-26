@@ -4,7 +4,7 @@ public class PipeTrigger : MonoBehaviour
 {
     public bool isExitPipe = true;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    /*private void OnTriggerEnter2D(Collider2D other)
     {
         EnemyBase enemy = other.GetComponent<EnemyBase>();
         if (enemy == null) return;
@@ -13,5 +13,5 @@ public class PipeTrigger : MonoBehaviour
         {
             enemy.EnterExitPipe();
         }
-    }
+    }*/
 }

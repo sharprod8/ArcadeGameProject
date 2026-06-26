@@ -5,14 +5,14 @@ public class FlyEnemy : EnemyBase
     private float flyTimer;
     private bool flying;
 
-    protected override void Start()
+    /*protected override void Start()
     {
         base.Start();
         baseSpeed = 0f;
         usesWallDetection = false;
-    }
+    }*/
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         if (isKnockedOver) return;
 
@@ -33,11 +33,11 @@ public class FlyEnemy : EnemyBase
         {
             rb.linearVelocity = Vector2.zero;
         }
-    }
+    }*/
 
-    public override void KnockOver()
+    /*public override void KnockOver()
     {
         if (flying) return;
         base.KnockOver();
-    }
+    }*/
 }

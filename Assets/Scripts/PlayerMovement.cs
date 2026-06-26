@@ -246,7 +246,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (enemy != null && enemy.isKnockedOver)
         {
-            enemy.Die();
+            //enemy.Die();
         }
     }
 

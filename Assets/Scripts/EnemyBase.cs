@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
+    //https://gamedevbeginner.com/glossary/what-are-virtual-and-override-functions-in-unity/
+
+    //https://gamedevbeginner.com/what-public-private-and-protected-mean-in-unity/
+
     [Header("Core")]
     public EnemySpawner spawner;
     public Rigidbody2D rb;
@@ -35,21 +39,30 @@ public class EnemyBase : MonoBehaviour
     private bool lockX = false;
     private float lockedX;
 
+    [Header("Direction settings")]
+    [SerializeField] private int startDirection = 1;
+    private int currentDirection;
+    private float halfWidth;
 
-    protected virtual void Awake()
+    private Vector2 movement;
+
+
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         originalScale = transform.localScale;
     }
 
-    protected virtual void Start()
+    void Start()
     {
-        currentSpeed = baseSpeed;
+        halfWidth = sprite.bounds.extents.x;
+        
+        //currentSpeed = baseSpeed;
         if (sprite != null) sprite.color = normalColor;
     }
 
-    protected virtual void Update()
+    /*protected virtual void Update()
     {
         if (isKnockedOver)
         {
@@ -57,9 +70,9 @@ public class EnemyBase : MonoBehaviour
             if (knockTimer <= 0f)
                 RecoverFromKnock();
         }
-    }
+    }*/
 
-    protected virtual void FixedUpdate()
+    void FixedUpdate()
     {
         Debug.Log($"{name} direction during movement = {direction}");
 
@@ -72,36 +85,47 @@ public class EnemyBase : MonoBehaviour
         Move();
     }
 
-    private void LateUpdate()
+    /*private void LateUpdate()
     {
         if (lockX)
         {
             transform.position = new Vector3(lockedX, transform.position.y, transform.position.z);
         }
-    }
+    }*/
 
 
 
     
-    protected virtual void Move()
+    void Move()
     {
-        rb.linearVelocity = new Vector2(direction * currentSpeed, rb.linearVelocity.y);
+        //rb.linearVelocity = new Vector2(direction * currentSpeed, rb.linearVelocity.y);
+
+        movement.x = baseSpeed * currentDirection;
+        movement.y = rb.linearVelocity.y;
+        rb.linearVelocity = movement;
     }
 
-    public void SetStartingDirection(Transform pipe)
+    /*public void SetStartingDirection(Transform pipe)
     {
-        direction = pipe.position.x < 0 ? 1 : -1;
+        if (pipe.position.x < 0)
+        {
+            direction = 1;
+        }
+        else
+        {
+            direction = -1;
+        }
         Debug.Log($"Spawned at {pipe.position.x}, facing = {direction}");
         Flip();
-    }
+    }*/
 
-    protected void Flip()
+    /*protected void Flip()
     {
         float x = Mathf.Abs(originalScale.x);
         transform.localScale = new Vector3(x * direction, originalScale.y, originalScale.z);
-    }
+    }*/
 
-    public virtual void KnockOver()
+    /*public virtual void KnockOver()
     {
         if (isKnockedOver)
             return;
@@ -119,11 +143,11 @@ public class EnemyBase : MonoBehaviour
         currentSpeed = 0f;
 
         if (sprite != null) sprite.color = knockedColor;
-    }
+    }*/
 
 
 
-    private void RecoverFromKnock()
+    /*private void RecoverFromKnock()
     {
         isKnockedOver = false;
         lockX = false;
@@ -132,11 +156,11 @@ public class EnemyBase : MonoBehaviour
         currentSpeed = baseSpeed;
 
         if (sprite != null) sprite.color = normalColor;
-    }
+    }*/
 
 
 
-    public virtual void TakeHit()
+    /*public virtual void TakeHit()
     {
         if (isBoss)
         {
@@ -151,9 +175,9 @@ public class EnemyBase : MonoBehaviour
         {
             Die();
         }
-    }
+    }*/
 
-    public virtual void EnterExitPipe()
+    /*public virtual void EnterExitPipe()
     {
         if (!isBoss)
         {
@@ -166,15 +190,15 @@ public class EnemyBase : MonoBehaviour
 
         isKnockedOver = false;
         SetStartingDirection(pipe);
-    }
+    }*/
 
-    public virtual void Die()
+    /* virtual void Die()
     {
         spawner.EnemyDied(this);
         Destroy(gameObject);
-    }
+    }*/
 
-    private void OnCollisionEnter2D(Collision2D c)
+    /*private void OnCollisionEnter2D(Collision2D c)
     {
         if (usesWallDetection)
         {
@@ -211,5 +235,7 @@ public class EnemyBase : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
+
+
 }

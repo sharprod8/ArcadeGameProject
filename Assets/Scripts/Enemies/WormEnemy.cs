@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class WormEnemy : EnemyBase
 {   
-    private Vector2 moveDir = Vector2.right;
+    //private Vector2 moveDir = Vector2.right;
 
-    protected override void Start()
+    /*protected override void Start()
     {
         base.Start();
         baseSpeed = 1.2f;
         currentSpeed = baseSpeed;
         usesWallDetection = false;
-    }
+    }*/
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         if (isKnockedOver) return;
 
@@ -33,9 +33,9 @@ public class WormEnemy : EnemyBase
             }
             Flip();
         }
-    }
+    }*/
 
-    public override void TakeHit()
+    /*public override void TakeHit()
     {
         RaycastHit2D upCheck = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, groundLayers);
 
@@ -43,5 +43,5 @@ public class WormEnemy : EnemyBase
             return;
 
         base.TakeHit();
-    }
+    }*/
 }

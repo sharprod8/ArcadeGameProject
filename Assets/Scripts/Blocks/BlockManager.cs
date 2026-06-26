@@ -198,7 +198,7 @@ public class BlockManager : MonoBehaviour
             EnemyBase enemy = hit.GetComponent<EnemyBase>();
             if (enemy != null)
             {
-                enemy.KnockOver();
+                //enemy.KnockOver();
             }
         }
     }

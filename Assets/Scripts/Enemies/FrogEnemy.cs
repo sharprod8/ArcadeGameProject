@@ -5,14 +5,14 @@ public class FrogEnemy : EnemyBase
     public float hopForce = 6f;
     private bool grounded;
 
-    protected override void Start()
+    /*protected override void Start()
     {
         base.Start();
         baseSpeed = 0f;
         usesWallDetection = false;
-    }
+    }*/
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
         if (isKnockedOver) return;
 
@@ -21,14 +21,14 @@ public class FrogEnemy : EnemyBase
             rb.linearVelocity = new Vector2(direction * 0.5f, hopForce);
             grounded = false;
         }
-    }
+    }*/
 
-    private void OnCollisionEnter2D(Collision2D c)
+    /*private void OnCollisionEnter2D(Collision2D c)
     {
         foreach (var contact in c.contacts)
         {
             if (contact.normal.y > 0.5f)
                 grounded = true;
         }
-    }
+    }*/
 }

@@ -15,7 +15,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform[] exitPipes;
 
     private int currentWaveIndex = 0;
-    private List<EnemyBase> aliveEnemies = new List<EnemyBase>();
+    private List<EnemyBaseV2> aliveEnemies = new List<EnemyBaseV2>();
 
     private int totalToSpawn;
     private int spawnedCount;
@@ -72,12 +72,12 @@ public class EnemySpawner : MonoBehaviour
             enemy.bossHP = 5;
         }
 
-        aliveEnemies.Add(enemy);
+        //aliveEnemies.Add(enemy);
     }
 
     public void EnemyDied(EnemyBase enemy)
     {
-        aliveEnemies.Remove(enemy);
+        //aliveEnemies.Remove(enemy);
 
         if (aliveEnemies.Count == 0 && spawnedCount >= totalToSpawn)
         {

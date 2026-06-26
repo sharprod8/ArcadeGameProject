@@ -192,3 +192,6 @@ MonoBehaviour:
   sprite: {fileID: 7059562581195214079}
   startDirection: 1
   speed: 3
+  layersToRaycastTo:
+    serializedVersion: 2
+    m_Bits: 136

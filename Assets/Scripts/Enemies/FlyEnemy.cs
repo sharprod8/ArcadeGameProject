@@ -3,12 +3,13 @@ using UnityEngine;
 public class FlyEnemy : EnemyBase
 {
     private float flyTimer;
-    private bool isFlying;
+    private bool flying;
 
     protected override void Start()
     {
         base.Start();
         baseSpeed = 0f;
+        usesWallDetection = false;
     }
 
     private void FixedUpdate()
@@ -19,12 +20,12 @@ public class FlyEnemy : EnemyBase
 
         if (flyTimer > 2f)
         {
-            isFlying = true;
+            flying = true;
             rb.linearVelocity = new Vector2(0, 2f);
 
             if (flyTimer > 3f)
             {
-                isFlying = false;
+                flying = false;
                 flyTimer = 0;
             }
         }
@@ -36,7 +37,7 @@ public class FlyEnemy : EnemyBase
 
     public override void KnockOver()
     {
-        if (isFlying) return;
+        if (flying) return;
         base.KnockOver();
     }
 }

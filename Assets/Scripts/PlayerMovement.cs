@@ -224,7 +224,14 @@ public class PlayerMovement : MonoBehaviour
                 float distLeft = Mathf.Abs(playerX - leftWorld.x);
                 float distRight = Mathf.Abs(playerX - rightWorld.x);
 
-                chosenCell = distLeft <= distRight ? leftCell : rightCell;
+                if (distLeft <= distRight)
+                {
+                    chosenCell = leftCell;
+                }
+                else
+                {
+                    chosenCell = rightCell;
+                }
             }
         }
 

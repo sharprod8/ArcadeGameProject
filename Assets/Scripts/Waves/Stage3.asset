@@ -47,3 +47,25 @@ MonoBehaviour:
     - enemyPrefab: {fileID: 4941464067969549382, guid: 74eadb1b8fba2bd4e96483a1035e143e, type: 3}
       count: 5
       spawnDelay: 5
+  - waveType: 0
+    enemies:
+    - enemyPrefab: {fileID: 930067248399739477, guid: 00210c1ba6acdc6448b349fac8928c4b, type: 3}
+      count: 2
+      spawnDelay: 8
+    - enemyPrefab: {fileID: 4941464067969549382, guid: 74eadb1b8fba2bd4e96483a1035e143e, type: 3}
+      count: 5
+      spawnDelay: 5
+  - waveType: 0
+    enemies:
+    - enemyPrefab: {fileID: 1397256508209589426, guid: f75050739859f8145a55aa6d22b8495f, type: 3}
+      count: 2
+      spawnDelay: 8
+    - enemyPrefab: {fileID: 5411755011240916059, guid: 880731720651a2348a5c7e81e0cda044, type: 3}
+      count: 2
+      spawnDelay: 5
+    - enemyPrefab: {fileID: 6885589955364126525, guid: 131c55ebadd4a5043837caac0a17c26e, type: 3}
+      count: 2
+      spawnDelay: 6
+    - enemyPrefab: {fileID: 4497244159337897054, guid: d27b48c7bd1ea8a4d86bee63a72e7618, type: 3}
+      count: 2
+      spawnDelay: 10

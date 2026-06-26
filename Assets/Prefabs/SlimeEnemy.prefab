@@ -189,6 +189,9 @@ MonoBehaviour:
   direction: 1
   speedStacks: 0
   maxSpeedStacks: 2
+  knockDuration: 6
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  knockedColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &2028285113979825557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +199,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6444363785698686179}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 906b156f06473ef4f8816c2f32cb69b8, type: 3}
   m_Name: 
@@ -225,3 +228,6 @@ MonoBehaviour:
   direction: 1
   speedStacks: 0
   maxSpeedStacks: 2
+  knockDuration: 3
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  knockedColor: {r: 1, g: 0, b: 0, a: 1}

@@ -189,6 +189,9 @@ MonoBehaviour:
   direction: 1
   speedStacks: 0
   maxSpeedStacks: 2
+  knockDuration: 6
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  knockedColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1510780047673768249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,3 +228,6 @@ MonoBehaviour:
   direction: 1
   speedStacks: 0
   maxSpeedStacks: 2
+  knockDuration: 3
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  knockedColor: {r: 1, g: 0, b: 0, a: 1}

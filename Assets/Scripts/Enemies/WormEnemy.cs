@@ -1,33 +1,43 @@
 using UnityEngine;
 
 public class WormEnemy : EnemyBase
-{
-    private Vector2 direction = Vector2.right;
+{   
+    private Vector2 moveDir = Vector2.right;
 
     protected override void Start()
     {
         base.Start();
         baseSpeed = 1.2f;
         currentSpeed = baseSpeed;
+        usesWallDetection = false;
     }
 
     private void FixedUpdate()
     {
         if (isKnockedOver) return;
 
-        rb.linearVelocity = direction * currentSpeed;
+        rb.linearVelocity = moveDir * currentSpeed;
 
-        RaycastHit2D groundCheck = Physics2D.Raycast(transform.position + (Vector3)direction * 0.3f, Vector2.down, 0.5f, LayerMask.GetMask("Ground"));
+        RaycastHit2D groundCheck = Physics2D.Raycast(transform.position + (Vector3)moveDir * 0.3f, Vector2.down, 0.5f, groundLayers);
 
         if (!groundCheck)
         {
-            direction = new Vector2(direction.y, -direction.x);
+            moveDir = new Vector2(moveDir.y, -moveDir.x);
+            if (moveDir.x > 0)
+            {
+                direction = 1;
+            }
+            else
+            {
+                direction = -1;
+            }
+            Flip();
         }
     }
 
     public override void TakeHit()
     {
-        RaycastHit2D upCheck = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
+        RaycastHit2D upCheck = Physics2D.Raycast(transform.position, Vector2.down, 0.1f, groundLayers);
 
         if (!upCheck)
             return;

@@ -17,6 +17,9 @@ public class EnemySpawner : MonoBehaviour
     private int currentWaveIndex = 0;
     private List<EnemyBase> aliveEnemies = new List<EnemyBase>();
 
+    private int totalToSpawn;
+    private int spawnedCount;
+
     private void Start()
     {
         StartWave(0);
@@ -25,8 +28,19 @@ public class EnemySpawner : MonoBehaviour
     private void StartWave(int index)
     {
         currentWaveIndex = index;
+
+        WaveData wave = stage.waves[index];
+
+        totalToSpawn = 0;
+        spawnedCount = 0;
+
+        foreach (var e in wave.enemies)
+        {
+            totalToSpawn += e.count;
+        }
+
         waveManager.OnWaveStarted(index + 1);
-        StartCoroutine(SpawnWave(stage.waves[index]));
+        StartCoroutine(SpawnWave(wave));
     }
 
     private IEnumerator SpawnWave(WaveData wave)
@@ -36,6 +50,7 @@ public class EnemySpawner : MonoBehaviour
             for (int i = 0; i < e.count; i++)
             {
                 SpawnEnemy(e.enemyPrefab, wave.waveType);
+                spawnedCount++;
                 yield return new WaitForSeconds(e.spawnDelay);
             }
         }
@@ -44,12 +59,13 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy(GameObject prefab, WaveData.WaveType type)
     {
         Transform pipe = spawnPipes[Random.Range(0, spawnPipes.Length)];
-        GameObject obj = Instantiate(prefab, pipe.position, Quaternion.identity);
+        GameObject thingy = Instantiate(prefab, pipe.position, Quaternion.identity);
 
-        EnemyBase enemy = obj.GetComponent<EnemyBase>();
+        EnemyBase enemy = thingy.GetComponent<EnemyBase>();
         enemy.spawner = this;
 
-        // Boss setup
+        enemy.SetStartingDirection(pipe);
+
         if (type == WaveData.WaveType.Boss)
         {
             enemy.isBoss = true;
@@ -63,7 +79,7 @@ public class EnemySpawner : MonoBehaviour
     {
         aliveEnemies.Remove(enemy);
 
-        if (aliveEnemies.Count == 0)
+        if (aliveEnemies.Count == 0 && spawnedCount >= totalToSpawn)
         {
             AdvanceWave();
         }

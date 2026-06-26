@@ -3,13 +3,14 @@ using UnityEngine;
 public class LadybugEnemy : EnemyBase
 {
     private float hoverTimer;
-    private bool isHovering;
+    private bool hovering;
 
     protected override void Start()
     {
         base.Start();
         baseSpeed = 1.5f;
         currentSpeed = baseSpeed;
+        usesWallDetection = true;
     }
 
     private void FixedUpdate()
@@ -20,24 +21,26 @@ public class LadybugEnemy : EnemyBase
 
         if (hoverTimer > 3f)
         {
-            isHovering = true;
+            hovering = true;
+            usesWallDetection = false;
             rb.linearVelocity = new Vector2(0, 2f);
 
             if (hoverTimer > 4f)
             {
-                isHovering = false;
+                hovering = false;
+                usesWallDetection = true;
                 hoverTimer = 0;
             }
         }
         else
         {
-            rb.linearVelocity = new Vector2(currentSpeed, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(direction * currentSpeed, rb.linearVelocity.y);
         }
     }
 
     public override void KnockOver()
     {
-        if (isHovering) return;
+        if (hovering) return;
         base.KnockOver();
     }
 }

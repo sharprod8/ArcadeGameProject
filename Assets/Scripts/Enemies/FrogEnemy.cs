@@ -3,36 +3,32 @@ using UnityEngine;
 public class FrogEnemy : EnemyBase
 {
     public float hopForce = 6f;
-    private bool isGrounded;
+    private bool grounded;
 
     protected override void Start()
     {
         base.Start();
         baseSpeed = 0f;
+        usesWallDetection = false;
     }
 
     private void FixedUpdate()
     {
         if (isKnockedOver) return;
 
-        if (isGrounded)
+        if (grounded)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, hopForce);
-            isGrounded = false;
+            rb.linearVelocity = new Vector2(direction * 0.5f, hopForce);
+            grounded = false;
         }
     }
 
     private void OnCollisionEnter2D(Collision2D c)
     {
-        if (c.collider.CompareTag("Ground"))
+        foreach (var contact in c.contacts)
         {
-            isGrounded = true;
+            if (contact.normal.y > 0.5f)
+                grounded = true;
         }
-    }
-
-    public override void KnockOver()
-    {
-        if (!isGrounded) return;
-        base.KnockOver();
     }
 }

@@ -82,7 +82,7 @@ public class EnemyBase : MonoBehaviour
 
 
 
-    // CHILDREN OVERRIDE THIS IF THEY WANT CUSTOM MOVEMENT
+    
     protected virtual void Move()
     {
         rb.linearVelocity = new Vector2(direction * currentSpeed, rb.linearVelocity.y);
@@ -91,14 +91,14 @@ public class EnemyBase : MonoBehaviour
     public void SetStartingDirection(Transform pipe)
     {
         direction = pipe.position.x < 0 ? 1 : -1;
-        Debug.Log($"Spawned at {pipe.position.x}, direction = {direction}");
+        Debug.Log($"Spawned at {pipe.position.x}, facing = {direction}");
         Flip();
     }
 
     protected void Flip()
     {
-        float sx = Mathf.Abs(originalScale.x);
-        transform.localScale = new Vector3(sx * direction, originalScale.y, originalScale.z);
+        float x = Mathf.Abs(originalScale.x);
+        transform.localScale = new Vector3(x * direction, originalScale.y, originalScale.z);
     }
 
     public virtual void KnockOver()
@@ -109,7 +109,7 @@ public class EnemyBase : MonoBehaviour
         isKnockedOver = true;
         knockTimer = knockDuration;
 
-        // freeze X position while knocked
+        //xant move left or right
         lockX = true;
         lockedX = transform.position.x;
 

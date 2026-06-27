@@ -195,10 +195,10 @@ public class BlockManager : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            EnemyBase enemy = hit.GetComponent<EnemyBase>();
+            EnemyBaseV2 enemy = hit.GetComponent<EnemyBaseV2>();
             if (enemy != null)
             {
-                //enemy.KnockOver();
+                enemy.KnockOver();
             }
         }
     }

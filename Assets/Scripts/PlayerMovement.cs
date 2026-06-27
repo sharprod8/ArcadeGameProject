@@ -242,11 +242,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        EnemyBase enemy = collision.collider.GetComponent<EnemyBase>();
+        EnemyBaseV2 enemy = collision.collider.GetComponent<EnemyBaseV2>();
 
         if (enemy != null && enemy.isKnockedOver)
         {
-            //enemy.Die();
+            enemy.Die();
         }
     }
 

@@ -15,8 +15,7 @@ public class EnemyBaseV2 : MonoBehaviour
     [Header("Debug things")]
     [SerializeField] int startDirection = 1;
     [SerializeField] float knockTimer;
-    [SerializeField] bool isKnockedOver;
-    [SerializeField] Button knockButton;
+    [SerializeField] public bool isKnockedOver;
 
     [Header("Knock stuff")]
     public float knockDuration = 3f;
@@ -101,5 +100,11 @@ public class EnemyBaseV2 : MonoBehaviour
     private void FreezeRigidbodyRotation()
     {
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    public void Die()
+    {
+        //spawner.EnemyDied(this);
+        Destroy(gameObject);
     }
 }

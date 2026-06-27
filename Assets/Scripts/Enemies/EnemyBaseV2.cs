@@ -1,16 +1,18 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EnemyBaseV2 : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] Rigidbody2D rb;
     [SerializeField] SpriteRenderer sprite;
+    public EnemySpawner spawner;
 
     [SerializeField] LayerMask layersToRaycastTo;
 
     [Header("Enemy Stats")]
     [SerializeField] float speed = 3f;
+    [SerializeField] int speedStacks = 0;
+    [SerializeField] int maxSpeedStacks = 2;
 
     [Header("Debug things")]
     [SerializeField] int startDirection = 1;
@@ -26,6 +28,11 @@ public class EnemyBaseV2 : MonoBehaviour
     int currentDirection;
     float halfWidth;
 
+
+    private void Awake()
+    {
+        startDirection = Random.Range(0, 2) * 2 - 1; // maps 0->-1, 1->1
+    }
 
     private void Start()
     {
@@ -104,7 +111,18 @@ public class EnemyBaseV2 : MonoBehaviour
 
     public void Die()
     {
-        //spawner.EnemyDied(this);
+        spawner.EnemyDied(this);
         Destroy(gameObject);
+    }
+
+    public void EnterExitPipe()
+    {
+        speedStacks = Mathf.Min(speedStacks + 1, maxSpeedStacks);
+        speed = speed + speedStacks * 0.75f;
+
+        Transform pipe = spawner.spawnPipes[Random.Range(0, spawner.spawnPipes.Length)];
+        transform.position = pipe.position;
+
+        isKnockedOver = false;
     }
 }

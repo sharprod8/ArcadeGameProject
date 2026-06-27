@@ -61,23 +61,22 @@ public class EnemySpawner : MonoBehaviour
         Transform pipe = spawnPipes[Random.Range(0, spawnPipes.Length)];
         GameObject thingy = Instantiate(prefab, pipe.position, Quaternion.identity);
 
-        EnemyBase enemy = thingy.GetComponent<EnemyBase>();
+        EnemyBaseV2 enemy = thingy.GetComponent<EnemyBaseV2>();
         enemy.spawner = this;
 
-        //enemy.SetStartingDirection(pipe);
 
-        if (type == WaveData.WaveType.Boss)
+        /*if (type == WaveData.WaveType.Boss)
         {
             enemy.isBoss = true;
             enemy.bossHP = 5;
-        }
+        }*/
 
-        //aliveEnemies.Add(enemy);
+        aliveEnemies.Add(enemy);
     }
 
-    public void EnemyDied(EnemyBase enemy)
+    public void EnemyDied(EnemyBaseV2 enemy)
     {
-        //aliveEnemies.Remove(enemy);
+        aliveEnemies.Remove(enemy);
 
         if (aliveEnemies.Count == 0 && spawnedCount >= totalToSpawn)
         {

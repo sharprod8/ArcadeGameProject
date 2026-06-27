@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2326355780083293426
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 819757628505447742}
+  m_Layer: 8
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &819757628505447742
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2326355780083293426}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.517, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2613058064931105409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6885589955364126525
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,9 +43,8 @@ GameObject:
   - component: {fileID: 191880229987825010}
   - component: {fileID: 5491895331412766353}
   - component: {fileID: 3138184072905146991}
-  - component: {fileID: 7819210421670710804}
   - component: {fileID: 1510780047673768249}
-  - component: {fileID: 2085314865917394166}
+  - component: {fileID: 7224839953523965178}
   m_Layer: 7
   m_Name: FlyEnemy
   m_TagString: Enemy
@@ -34,7 +64,8 @@ Transform:
   m_LocalPosition: {x: 3.64, y: 3.5, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 819757628505447742}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &191880229987825010
@@ -165,33 +196,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.8562449}
   m_EdgeRadius: 0
---- !u!114 &7819210421670710804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6885589955364126525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aa35aea24815954c93eae1eca40306a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawner: {fileID: 0}
-  rb: {fileID: 5491895331412766353}
-  isKnockedOver: 0
-  isBoss: 0
-  bossHP: 1
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 72
-  usesWallDetection: 1
-  direction: 1
-  speedStacks: 0
-  maxSpeedStacks: 2
-  knockDuration: 6
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  knockedColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1510780047673768249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906b156f06473ef4f8816c2f32cb69b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2085314865917394166
+--- !u!114 &7224839953523965178
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,21 +217,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 6885589955364126525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5990f77ce9b8cd4e9cad36416bae231, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a54f430f9fc09146a5dd2c95f3cc9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 0}
+  enemyType: 0
   rb: {fileID: 5491895331412766353}
-  isKnockedOver: 0
-  isBoss: 0
-  bossHP: 1
-  groundLayers:
+  sprite: {fileID: 191880229987825010}
+  spawner: {fileID: 0}
+  layersToRaycastTo:
     serializedVersion: 2
-    m_Bits: 0
-  usesWallDetection: 1
-  direction: 1
+    m_Bits: 136
+  speed: 0
   speedStacks: 0
   maxSpeedStacks: 2
+  startDirection: 1
+  knockTimer: 0
+  isKnockedOver: 0
   knockDuration: 3
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   knockedColor: {r: 1, g: 0, b: 0, a: 1}
+  frogHopForce: 5
+  frogTimeBetweenHops: 1.2
+  frogTimer: 0
+  frogHorizontalSpeed: 3
+  groundCheckPosition: {fileID: 819757628505447742}
+  groundCheckSize: {x: 0.4, y: 0.02}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8

@@ -34,7 +34,8 @@ Transform:
   m_LocalPosition: {x: 5.4, y: 3.5, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 8579347035587532910}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6101063259998266351
@@ -192,6 +193,7 @@ MonoBehaviour:
   knockDuration: 6
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   knockedColor: {r: 1, g: 0, b: 0, a: 1}
+  startDirection: 1
 --- !u!114 &2028285113979825557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,3 +233,35 @@ MonoBehaviour:
   knockDuration: 3
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   knockedColor: {r: 1, g: 0, b: 0, a: 1}
+  startDirection: 1
+--- !u!1 &7772158819751833230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8579347035587532910}
+  m_Layer: 7
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8579347035587532910
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7772158819751833230}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.517, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6517039802695469664}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

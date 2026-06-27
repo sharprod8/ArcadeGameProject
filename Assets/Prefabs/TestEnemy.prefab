@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3988489523681491407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3210762608008592083}
+  m_Layer: 7
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3210762608008592083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3988489523681491407}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.517, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3500216360691167412}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4273173548547311030
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,7 +64,8 @@ Transform:
   m_LocalPosition: {x: -6.4, y: -3.37, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 3210762608008592083}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7059562581195214079
@@ -171,7 +203,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4273173548547311030}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 906b156f06473ef4f8816c2f32cb69b8, type: 3}
   m_Name: 
@@ -188,10 +220,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a54f430f9fc09146a5dd2c95f3cc9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
   rb: {fileID: 2008548667835030464}
   sprite: {fileID: 7059562581195214079}
-  startDirection: 1
-  speed: 3
+  spawner: {fileID: 0}
   layersToRaycastTo:
     serializedVersion: 2
     m_Bits: 136
+  speed: 1
+  speedStacks: 0
+  maxSpeedStacks: 2
+  startDirection: 1
+  knockTimer: 0
+  isKnockedOver: 0
+  knockDuration: 3
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  knockedColor: {r: 1, g: 0, b: 0, a: 1}
+  frogHopForce: 5
+  frogTimeBetweenHops: 1.2
+  frogTimer: 0
+  frogHorizontalSpeed: 3
+  groundCheckPosition: {fileID: 3210762608008592083}
+  groundCheckSize: {x: 0.4, y: 0.02}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8

@@ -1,7 +1,16 @@
 using UnityEngine;
+public enum EnemyType
+{
+        Slime,
+        Frog,
+        Fly
+}
 
 public class EnemyBaseV2 : MonoBehaviour
 {
+    [Header("Type")]
+    [SerializeField] EnemyType enemyType = EnemyType.Slime;
+
     [Header("References")]
     [SerializeField] Rigidbody2D rb;
     [SerializeField] SpriteRenderer sprite;
@@ -24,19 +33,34 @@ public class EnemyBaseV2 : MonoBehaviour
     public Color normalColor = Color.white;
     public Color knockedColor = Color.red;
 
+    [Header("Frog Settings")]
+    [SerializeField] float frogHopForce = 5f;
+    [SerializeField] float frogTimeBetweenHops = 1.2f;
+    [SerializeField] float frogTimer = 0f;
+    [SerializeField] float frogHorizontalSpeed = 3f;
+    float frogGroundIgnoreTime = 0.1f;
+    float frogGroundIgnoreTimer = 0f;
+
+    [Header("Ground Check")]
+    public Transform groundCheckPosition;
+    public Vector2 groundCheckSize = new Vector2(0.4f, 0.02f);
+    public LayerMask groundLayer;
+    bool isGrounded = false;
+
     private Vector2 movement;
     int currentDirection;
     float halfWidth;
-
+    float halfHeight;
 
     private void Awake()
     {
-        startDirection = Random.Range(0, 2) * 2 - 1; // maps 0->-1, 1->1
+        startDirection = Random.Range(0, 2) * 2 - 1;
     }
 
     private void Start()
     {
         halfWidth = sprite.bounds.extents.x;
+        halfHeight = sprite.bounds.extents.y;
         currentDirection = startDirection;
         if (startDirection == 1)
         {
@@ -50,9 +74,21 @@ public class EnemyBaseV2 : MonoBehaviour
 
     private void FixedUpdate()
     {
-        movement.x = speed * currentDirection;
-        movement.y = rb.linearVelocity.y;
-        rb.linearVelocity = movement;
+
+        switch (enemyType)
+        {
+            case EnemyType.Slime:
+                SlimeMovement();
+                break;
+
+            case EnemyType.Frog:
+                FrogMovement();
+                break;
+
+            case EnemyType.Fly:
+                FlyMovement();
+                break;
+        }
 
         SetDirection();
     }
@@ -125,4 +161,55 @@ public class EnemyBaseV2 : MonoBehaviour
 
         isKnockedOver = false;
     }
+
+    private void SlimeMovement()
+    {
+        movement.x = speed * currentDirection;
+        movement.y = rb.linearVelocity.y;
+        rb.linearVelocity = movement;
+    }
+
+    private void FrogMovement()
+    {
+        if (frogGroundIgnoreTimer > 0f)
+            frogGroundIgnoreTimer -= Time.deltaTime;
+
+        isGrounded = frogGroundIgnoreTimer <= 0f && IsGrounded();
+
+        if (isGrounded)
+        {
+            rb.linearVelocity = new Vector2(0f, 0f);
+
+            frogTimer -= Time.deltaTime;
+
+            if (frogTimer > 0f)
+                return;
+
+            frogTimer = frogTimeBetweenHops;
+
+            rb.AddForce(Vector2.up * frogHopForce, ForceMode2D.Impulse);
+            rb.linearVelocity = new Vector2(currentDirection * frogHorizontalSpeed, rb.linearVelocity.y);
+            frogGroundIgnoreTimer = frogGroundIgnoreTime;
+
+            return;
+        }
+    }
+
+    private void FlyMovement()
+    {
+        // e
+    }
+
+    private bool IsGrounded()
+    {
+        return Physics2D.OverlapBox(groundCheckPosition.position, groundCheckSize, 0f, groundLayer);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(groundCheckPosition.position, groundCheckSize);
+    }
+
+
 }

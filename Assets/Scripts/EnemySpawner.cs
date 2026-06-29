@@ -90,7 +90,8 @@ public class EnemySpawner : MonoBehaviour
 
         if (currentWaveIndex >= stage.waves.Length)
         {
-            Debug.Log("Stage complete!");
+            Debug.Log("Level complete!");
+            LevelManager.instance.NextLevel();
             return;
         }
 

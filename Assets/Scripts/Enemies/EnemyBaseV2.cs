@@ -1,9 +1,9 @@
 using UnityEngine;
 public enum EnemyType
 {
-        Slime,
-        Frog,
-        Fly
+     Slime,
+     Frog,
+     Fly
 }
 
 public class EnemyBaseV2 : MonoBehaviour
@@ -127,6 +127,8 @@ public class EnemyBaseV2 : MonoBehaviour
         knockTimer = knockDuration;
 
         rb.constraints = RigidbodyConstraints2D.FreezePositionX;
+
+        sprite.color = Color.red;
     }
 
     private void RecoverFromKnock()
@@ -138,6 +140,8 @@ public class EnemyBaseV2 : MonoBehaviour
         LeanTween.rotateZ(gameObject, 0f, 0.5f)
             .setEase(LeanTweenType.easeInOutSine)
             .setOnComplete(FreezeRigidbodyRotation);
+
+        sprite.color = Color.white;
     }
 
     private void FreezeRigidbodyRotation()
@@ -154,7 +158,9 @@ public class EnemyBaseV2 : MonoBehaviour
     public void EnterExitPipe()
     {
         speedStacks = Mathf.Min(speedStacks + 1, maxSpeedStacks);
-        speed = speed + speedStacks * 0.75f;
+        speed += speedStacks * 0.75f;
+        frogHorizontalSpeed += speedStacks * 0.5f;
+        frogTimeBetweenHops -= 0.1f;
 
         Transform pipe = spawner.spawnPipes[Random.Range(0, spawner.spawnPipes.Length)];
         transform.position = pipe.position;
@@ -171,6 +177,8 @@ public class EnemyBaseV2 : MonoBehaviour
 
     private void FrogMovement()
     {
+        if (isKnockedOver) return;
+        
         if (frogGroundIgnoreTimer > 0f)
             frogGroundIgnoreTimer -= Time.deltaTime;
 

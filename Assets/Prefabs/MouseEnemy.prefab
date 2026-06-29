@@ -43,9 +43,8 @@ GameObject:
   - component: {fileID: 7237549347683030197}
   - component: {fileID: 2442985236764536636}
   - component: {fileID: 9172393001605477878}
-  - component: {fileID: 8131034699122400147}
   - component: {fileID: 4171678116983538538}
-  - component: {fileID: 5902772698679986579}
+  - component: {fileID: 59218587051653945}
   m_Layer: 7
   m_Name: MouseEnemy
   m_TagString: Enemy
@@ -185,7 +184,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.031919286}
+  m_Offset: {x: 0, y: -0.12171155}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -195,36 +194,8 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 0.8562449}
+  m_Size: {x: 1, y: 0.73850906}
   m_EdgeRadius: 0
---- !u!114 &8131034699122400147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4941464067969549382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aa35aea24815954c93eae1eca40306a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawner: {fileID: 0}
-  rb: {fileID: 2442985236764536636}
-  isKnockedOver: 0
-  isBoss: 0
-  bossHP: 1
-  groundLayers:
-    serializedVersion: 2
-    m_Bits: 72
-  usesWallDetection: 1
-  direction: 1
-  speedStacks: 0
-  maxSpeedStacks: 2
-  knockDuration: 3
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  knockedColor: {r: 1, g: 0, b: 0, a: 1}
-  startDirection: 1
 --- !u!114 &4171678116983538538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906b156f06473ef4f8816c2f32cb69b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5902772698679986579
+--- !u!114 &59218587051653945
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,22 +217,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 4941464067969549382}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cae66efc149ed2489f584aaffeed67e, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a54f430f9fc09146a5dd2c95f3cc9ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawner: {fileID: 0}
+  enemyType: 0
   rb: {fileID: 2442985236764536636}
-  isKnockedOver: 0
-  isBoss: 0
-  bossHP: 1
-  groundLayers:
+  sprite: {fileID: 7237549347683030197}
+  spawner: {fileID: 0}
+  layersToRaycastTo:
     serializedVersion: 2
-    m_Bits: 0
-  usesWallDetection: 1
-  direction: 1
+    m_Bits: 136
+  speed: 3
   speedStacks: 0
   maxSpeedStacks: 2
-  knockDuration: 3
+  startDirection: 1
+  knockTimer: 0
+  isKnockedOver: 0
+  knockDuration: 5
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   knockedColor: {r: 1, g: 0, b: 0, a: 1}
-  startDirection: 1
+  frogHopForce: 5
+  frogTimeBetweenHops: 1.2
+  frogTimer: 0
+  frogHorizontalSpeed: 3
+  groundCheckPosition: {fileID: 1933248489186976836}
+  groundCheckSize: {x: 0.71, y: 0.02}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8

@@ -195,14 +195,14 @@ MonoBehaviour:
   spawner: {fileID: 0}
   layersToRaycastTo:
     serializedVersion: 2
-    m_Bits: 136
+    m_Bits: 392
   speed: 1
   speedStacks: 0
-  maxSpeedStacks: 1
+  maxSpeedStacks: 3
   startDirection: 1
   knockTimer: 0
   isKnockedOver: 0
-  knockDuration: 3
+  knockDuration: 5
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   knockedColor: {r: 1, g: 0, b: 0, a: 1}
   frogHopForce: 4
@@ -210,7 +210,7 @@ MonoBehaviour:
   frogTimer: 0
   frogHorizontalSpeed: 0.7
   groundCheckPosition: {fileID: 9127051359517875918}
-  groundCheckSize: {x: 0.46, y: 0.02}
+  groundCheckSize: {x: 0.49, y: 0.02}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8

@@ -194,8 +194,8 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.65, y: 0.5}
-  m_EdgeRadius: 0
+  m_Size: {x: 0.56, y: 0.43}
+  m_EdgeRadius: 0.04
 --- !u!114 &1417986073188704435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,11 +229,11 @@ MonoBehaviour:
     m_Bits: 392
   speed: 1
   speedStacks: 0
-  maxSpeedStacks: 3
+  maxSpeedStacks: 5
   startDirection: 1
   knockTimer: 0
   isKnockedOver: 0
-  knockDuration: 3
+  knockDuration: 5
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   knockedColor: {r: 1, g: 0, b: 0, a: 1}
   frogHopForce: 5

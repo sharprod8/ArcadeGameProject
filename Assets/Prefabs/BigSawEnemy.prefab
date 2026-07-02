@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8663467213560381770}
   - component: {fileID: 84152751940356559}
   m_Layer: 7
-  m_Name: SawEnemy
+  m_Name: BigSawEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.64, y: 3.5, z: 0}
-  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
+  m_LocalScale: {x: 2.9999998, y: 2.9999998, z: 2.9999998}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9127051359517875918}
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -937281917942298695, guid: 34dbbf4b749bfb2498b5c8d02622892a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9339623, g: 0.6679187, b: 0.4978195, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
@@ -215,8 +215,8 @@ MonoBehaviour:
   flyRiseTime: 0.4
   flyHoverTime: 2
   flyIdleTime: 1.2
-  sawBoxSize: {x: 0.1, y: 0.72}
-  sawBoxDistance: 0.48
+  sawBoxSize: {x: 0.27, y: 1.81}
+  sawBoxDistance: 0.99
   groundCheckPosition: {fileID: 9127051359517875918}
   groundCheckSize: {x: 0.54, y: 0.02}
   groundLayer:

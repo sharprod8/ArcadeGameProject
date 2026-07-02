@@ -332,7 +332,16 @@ public class EnemyBaseV2 : MonoBehaviour
         rb.linearVelocity = movement;
 
         Vector2 origin = transform.position;
-        Vector2 dir = currentDirection == 1 ? Vector2.right : Vector2.left;
+        Vector2 dir;
+        if (currentDirection == 1)
+        {
+            dir = Vector2.right;
+        }
+        else
+        {
+            dir = Vector2.left;
+        }
+
         Vector2 boxCenter = origin + dir * sawBoxDistance;
 
         Vector2 half = sawBoxSize * 0.5f;

@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2326355780083293426}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.412, z: 0}
+  m_LocalPosition: {x: 0, y: -0.448, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -195,7 +195,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.8562449}
-  m_EdgeRadius: 0
+  m_EdgeRadius: 0.03
 --- !u!114 &1510780047673768249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +224,7 @@ MonoBehaviour:
   rb: {fileID: 5491895331412766353}
   sprite: {fileID: 191880229987825010}
   spawner: {fileID: 0}
+  blockManager: {fileID: 0}
   layersToRaycastTo:
     serializedVersion: 2
     m_Bits: 136
@@ -244,8 +245,10 @@ MonoBehaviour:
   flyRiseTime: 0.4
   flyHoverTime: 2
   flyIdleTime: 1
+  sawBoxSize: {x: 0.6, y: 0.4}
+  sawBoxDistance: 0.1
   groundCheckPosition: {fileID: 819757628505447742}
-  groundCheckSize: {x: 0.4, y: 0.02}
+  groundCheckSize: {x: 0.58, y: 0.04}
   groundLayer:
     serializedVersion: 2
     m_Bits: 72

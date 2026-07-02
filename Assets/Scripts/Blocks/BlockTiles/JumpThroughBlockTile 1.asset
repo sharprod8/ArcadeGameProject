@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c9db008e2a90eb5419318463d3c8cbbf, type: 3}
-  m_Name: SolidBlockTile 1
+  m_Name: JumpThroughBlockTile 1
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 7c1f734ef6a010446896ae1064dea027, type: 3}
-  m_Color: {r: 0.3460751, g: 0.7783384, b: 0.9528302, a: 1}
+  m_Sprite: {fileID: 21300000, guid: ab12a60254ca34445a01bbd51ec3b4fc, type: 3}
+  m_Color: {r: 0.3254717, g: 0.7574193, b: 1, a: 1}
   m_Transform:
     e00: 1
     e01: 0
@@ -34,4 +34,4 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 2
-  data: {fileID: 11400000, guid: ed131adb531e2ee4d97e4247463c0579, type: 2}
+  data: {fileID: 11400000, guid: ff0a68725ba0ac540b4836eb51e91d34, type: 2}

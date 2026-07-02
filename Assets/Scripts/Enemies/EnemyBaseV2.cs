@@ -1,15 +1,16 @@
 using UnityEngine;
 public enum EnemyType
 {
-     Slime,
+     Basic,
      Frog,
-     Fly
+     Fly,
+     Ladybug
 }
 
 public class EnemyBaseV2 : MonoBehaviour
 {
     [Header("Type")]
-    [SerializeField] EnemyType enemyType = EnemyType.Slime;
+    [SerializeField] EnemyType enemyType = EnemyType.Basic;
 
     [Header("References")]
     [SerializeField] Rigidbody2D rb;
@@ -38,8 +39,21 @@ public class EnemyBaseV2 : MonoBehaviour
     [SerializeField] float frogTimeBetweenHops = 1.2f;
     [SerializeField] float frogTimer = 0f;
     [SerializeField] float frogHorizontalSpeed = 3f;
-    float frogGroundIgnoreTime = 0.1f;
+    float frogGroundIgnoreTime = 0.2f;
     float frogGroundIgnoreTimer = 0f;
+
+
+    [Header("Fly Settings")]
+    [SerializeField] float flyHoverHeight = 1.2f;
+    [SerializeField] float flyRiseTime = 0.4f;
+    [SerializeField] float flyHoverTime = 2f;
+    [SerializeField] float flyIdleTime = 1.2f;
+    float flyTimer = 0f;
+    float flyGroundIgnoreTime = 0.2f;
+    float flyGroundIgnoreTimer = 0f;
+    bool flyIsHovering = false;
+    bool flyIsRising = false;
+    float flyGroundY;
 
     [Header("Ground Check")]
     public Transform groundCheckPosition;
@@ -70,6 +84,13 @@ public class EnemyBaseV2 : MonoBehaviour
         {
             sprite.flipX = false;
         }
+
+        if (enemyType == EnemyType.Fly)
+            flyTimer = flyIdleTime;
+
+        if (enemyType == EnemyType.Ladybug)
+            flyTimer = flyIdleTime;
+
     }
 
     private void FixedUpdate()
@@ -77,7 +98,7 @@ public class EnemyBaseV2 : MonoBehaviour
 
         switch (enemyType)
         {
-            case EnemyType.Slime:
+            case EnemyType.Basic:
                 SlimeMovement();
                 break;
 
@@ -87,6 +108,10 @@ public class EnemyBaseV2 : MonoBehaviour
 
             case EnemyType.Fly:
                 FlyMovement();
+                break;
+
+            case EnemyType.Ladybug:
+                LadybugMovement();
                 break;
         }
 
@@ -203,9 +228,137 @@ public class EnemyBaseV2 : MonoBehaviour
         }
     }
 
+
     private void FlyMovement()
     {
-        // e
+        if (isKnockedOver) return;
+
+        if (flyGroundIgnoreTimer > 0f)
+        {
+            flyGroundIgnoreTimer -= Time.deltaTime;
+        }
+
+        bool flyGrounded = flyGroundIgnoreTimer <= 0f && IsGrounded();
+
+        if (!flyIsRising && !flyIsHovering)
+        {
+            if (flyGrounded)
+                FlyGrounded();
+
+            return;
+        }
+
+        if (flyIsHovering)
+        {
+            flyTimer -= Time.deltaTime;
+            movement.x = speed * currentDirection;
+            movement.y = rb.linearVelocity.y;
+            rb.linearVelocity = movement;
+
+            if (flyTimer <= 0f)
+            {
+                flyIsHovering = false;
+                StartFlyDrop();
+            }
+
+            return;
+        }
+    }
+
+    private void LadybugMovement()
+    {
+        if (isKnockedOver) return;
+
+        if (flyGroundIgnoreTimer > 0f)
+            flyGroundIgnoreTimer -= Time.deltaTime;
+
+        bool grounded = flyGroundIgnoreTimer <= 0f && IsGrounded();
+
+        if (!flyIsRising && !flyIsHovering)
+        {
+            movement.x = speed * currentDirection;
+            movement.y = rb.linearVelocity.y;
+            rb.linearVelocity = movement;
+
+            flyTimer -= Time.deltaTime;
+
+            if (flyTimer > 0f)
+                return;
+
+            flyTimer = flyRiseTime;
+            flyIsRising = true;
+            flyGroundY = transform.position.y;
+
+            StartFlyRise();
+            return;
+        }
+
+        if (flyIsHovering)
+        {
+            flyTimer -= Time.deltaTime;
+
+            movement.x = speed * currentDirection;
+            movement.y = rb.linearVelocity.y;
+            rb.linearVelocity = movement;
+
+            if (flyTimer <= 0f)
+            {
+                flyIsHovering = false;
+                StartFlyDrop();
+            }
+
+            return;
+        }
+    }
+
+    private void FlyGrounded()
+    {
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+
+        flyTimer -= Time.deltaTime;
+
+        if (flyTimer > 0f)
+            return;
+
+        flyTimer = flyRiseTime;
+        flyIsRising = true;
+
+        flyGroundY = transform.position.y;
+
+        StartFlyRise();
+    }
+
+    private void StartFlyRise()
+    {
+        float targetY = flyGroundY + flyHoverHeight;
+
+        rb.bodyType = RigidbodyType2D.Kinematic;
+
+        LeanTween.moveY(gameObject, targetY, flyRiseTime)
+            .setEaseOutSine()
+            .setOnComplete(StartFlyHover);
+
+        flyGroundIgnoreTimer = flyGroundIgnoreTime;
+    }
+
+    private void StartFlyHover()
+    {
+        flyIsRising = false;
+        flyIsHovering = true;
+
+        flyTimer = flyHoverTime;
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+    }
+
+
+    private void StartFlyDrop()
+    {
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+
+        flyTimer = flyIdleTime;
+        flyGroundIgnoreTimer = flyGroundIgnoreTime;
     }
 
     private bool IsGrounded()

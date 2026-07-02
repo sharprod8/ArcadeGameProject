@@ -240,8 +240,12 @@ MonoBehaviour:
   frogTimeBetweenHops: 1.2
   frogTimer: 0
   frogHorizontalSpeed: 3
+  flyHoverHeight: 1.2
+  flyRiseTime: 0.4
+  flyHoverTime: 2
+  flyIdleTime: 1.2
   groundCheckPosition: {fileID: 3210762608008592083}
   groundCheckSize: {x: 0.67, y: 0.02}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 72

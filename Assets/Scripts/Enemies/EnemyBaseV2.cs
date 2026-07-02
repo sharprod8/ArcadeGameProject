@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 public enum EnemyType
 {
      Basic,
      Frog,
      Fly,
-     Ladybug
+     Ladybug,
+     Saw
 }
 
 public class EnemyBaseV2 : MonoBehaviour
@@ -15,7 +17,8 @@ public class EnemyBaseV2 : MonoBehaviour
     [Header("References")]
     [SerializeField] Rigidbody2D rb;
     [SerializeField] SpriteRenderer sprite;
-    public EnemySpawner spawner;
+    [SerializeField] public EnemySpawner spawner;
+    [SerializeField] BlockManager blockManager;
 
     [SerializeField] LayerMask layersToRaycastTo;
 
@@ -55,6 +58,10 @@ public class EnemyBaseV2 : MonoBehaviour
     bool flyIsRising = false;
     float flyGroundY;
 
+    [Header("Saw Settings")]
+    [SerializeField] Vector2 sawBoxSize = new Vector2(0.6f, 0.4f);
+    [SerializeField] float sawBoxDistance = 0.1f;
+
     [Header("Ground Check")]
     public Transform groundCheckPosition;
     public Vector2 groundCheckSize = new Vector2(0.4f, 0.02f);
@@ -69,6 +76,7 @@ public class EnemyBaseV2 : MonoBehaviour
     private void Awake()
     {
         startDirection = Random.Range(0, 2) * 2 - 1;
+        blockManager = FindObjectOfType<BlockManager>();
     }
 
     private void Start()
@@ -113,6 +121,10 @@ public class EnemyBaseV2 : MonoBehaviour
             case EnemyType.Ladybug:
                 LadybugMovement();
                 break;
+
+            case EnemyType.Saw:
+                SawMovement();
+                break;
         }
 
         SetDirection();
@@ -148,6 +160,8 @@ public class EnemyBaseV2 : MonoBehaviour
 
     public void KnockOver()
     {
+        if (enemyType == EnemyType.Saw) return;
+
         isKnockedOver = true;
         knockTimer = knockDuration;
 
@@ -311,6 +325,57 @@ public class EnemyBaseV2 : MonoBehaviour
         }
     }
 
+    private void SawMovement()
+    {
+        movement.x = speed * currentDirection;
+        movement.y = rb.linearVelocity.y;
+        rb.linearVelocity = movement;
+
+        Vector2 origin = transform.position;
+        Vector2 dir = currentDirection == 1 ? Vector2.right : Vector2.left;
+        Vector2 boxCenter = origin + dir * sawBoxDistance;
+
+        Vector2 half = sawBoxSize * 0.5f;
+        Vector2 min = boxCenter - half;
+        Vector2 max = boxCenter + half;
+
+        bool hitSolid = false;
+
+        float step = 0.1f;
+
+        for (float x = min.x; x <= max.x; x += step)
+        {
+            for (float y = min.y; y <= max.y; y += step)
+            {
+                Vector3Int tilePos = blockManager.tilemap.WorldToCell(new Vector3(x, y, 0));
+                BlockTile tile = blockManager.tilemap.GetTile<BlockTile>(tilePos);
+
+                if (tile == null || tile.data == null)
+                    continue;
+
+                BlockData data = tile.data;
+
+                if (data.blockType == BlockData.BlockType.Brick)
+                {
+                    blockManager.HitBlock(tilePos);
+                }
+                else
+                {
+                    hitSolid = true;
+                }
+            }
+        }
+
+
+        if (hitSolid)
+        {
+            currentDirection *= -1;
+            sprite.flipX = currentDirection == -1;
+        }
+    }
+
+
+
     private void FlyGrounded()
     {
         rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
@@ -370,6 +435,27 @@ public class EnemyBaseV2 : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(groundCheckPosition.position, groundCheckSize);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (enemyType != EnemyType.Saw) return;
+
+        Vector2 origin = transform.position;
+        Vector2 dir;
+        if (currentDirection == 1)
+        {
+            dir = Vector2.right;
+        }
+        else
+        {
+            dir = Vector2.left;
+        }
+
+        Vector2 boxCenter = origin + dir * sawBoxDistance;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(boxCenter, sawBoxSize);
     }
 
 

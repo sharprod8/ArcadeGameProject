@@ -391,7 +391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHearts: 3
-  currentHearts: 0
+  currentHearts: 3
   isDead: 0
   respawnPoint: {fileID: 0}
 --- !u!1 &6131204397547582904

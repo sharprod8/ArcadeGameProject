@@ -313,9 +313,19 @@ public class PlayerMovement : MonoBehaviour
         {
             enemy.Die();
         }
-        else
+        else if (enemy = null)
+        {
+            Debug.Log("enemy is null");
+        }
+        else if (enemy != null)
         {
             GetComponent<PlayerHealth>().TakeDamage();
+            Debug.Log("took damange");
+        }
+
+        if (CompareTag("Tilemap"))
+        {
+            Debug.Log("Collided with ground");
         }
     }
 

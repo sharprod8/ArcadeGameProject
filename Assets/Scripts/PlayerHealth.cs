@@ -17,7 +17,8 @@ public class PlayerHealth : MonoBehaviour
         currentHearts = maxHearts;
         movement = GetComponent<PlayerMovement>();
         sprite = GetComponent<SpriteRenderer>();
-        GameManager.Instance.RegisterPlayer(this);
+        if (GameManager.instance != null )
+            GameManager.instance.RegisterPlayer(this);
 
     }
 
@@ -54,7 +55,7 @@ public class PlayerHealth : MonoBehaviour
         movement.enabled = false;
         sprite.enabled = false;
 
-        GameManager.Instance.PlayerDied(this);
+        GameManager.instance.PlayerDied(this);
     }
 
     public void ReviveWithOneHeart()

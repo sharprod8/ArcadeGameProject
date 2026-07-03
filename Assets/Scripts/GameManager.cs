@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameManager instance;
     public int sharedLives = 3;
     public List<PlayerHealth> players = new List<PlayerHealth>();
 
     private void Awake()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -22,8 +22,10 @@ public class GameManager : MonoBehaviour
 
     public void RegisterPlayer(PlayerHealth player)
     {
-        if (!players.Contains(player))
-            players.Add(player);
+        if (players.Contains(player))
+            return;
+
+        players.Add(player);
     }
 
     public void PlayerDied(PlayerHealth player)

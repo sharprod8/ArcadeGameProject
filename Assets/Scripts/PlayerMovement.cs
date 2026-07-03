@@ -24,7 +24,11 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheckPosition;
     public Vector2 groundCheckSize = new Vector2(0.4f, 0.02f);
     public LayerMask groundLayer;
-    
+
+    [Header("Block Hit Settings")]
+    public Vector2 blockHitBoxSize = new Vector2(0.6f, 0.2f);
+    public float blockHitBoxOffset = 0.7f;
+
     [SerializeField] private bool isSkidding;
     [SerializeField] private bool hasHitBlock;
 
@@ -148,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawWireCube(groundCheckPosition.position, groundCheckSize);
     }
 
-    private void CheckBlockHit()
+    /*private void CheckBlockHit()
     {
         if (rb.linearVelocity.y <= 0)
         {
@@ -238,7 +242,68 @@ public class PlayerMovement : MonoBehaviour
         manager.HitBlock(chosenCell);
         Debug.Log($"hit block at cell: {chosenCell}");
         hasHitBlock = true;
+    }*/
+
+    private void CheckBlockHit()
+    {
+        if (rb.linearVelocity.y <= 0)
+        {
+            hasHitBlock = false;
+            return;
+        }
+
+        if (hasHitBlock)
+            return;
+
+        Vector2 boxCenter = new Vector2(transform.position.x, transform.position.y + blockHitBoxOffset);
+        Vector2 boxSize = blockHitBoxSize;
+        Collider2D[] hits = Physics2D.OverlapBoxAll(boxCenter, boxSize, 0f);
+
+        Tilemap tilemap = null;
+
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("Tilemap"))
+            {
+                tilemap = hit.GetComponent<Tilemap>();
+                break;
+            }
+        }
+
+        if (tilemap == null)
+            return;
+
+        BlockManager manager = tilemap.GetComponent<BlockManager>();
+        if (manager == null)
+            return;
+
+        Vector2 half = boxSize * 0.5f;
+        Vector2 min = boxCenter - half;
+        Vector2 max = boxCenter + half;
+
+        float step = 0.05f;
+        bool hitAny = false;
+
+        for (float x = min.x; x <= max.x; x += step)
+        {
+            for (float y = min.y; y <= max.y; y += step)
+            {
+                Vector3Int cellPos = tilemap.WorldToCell(new Vector3(x, y, 0));
+                BlockTile tile = tilemap.GetTile<BlockTile>(cellPos);
+
+                if (tile == null || tile.data == null)
+                    continue;
+
+                manager.HitBlock(cellPos);
+                hitAny = true;
+            }
+        }
+
+        if (hitAny)
+            hasHitBlock = true;
     }
+
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -248,6 +313,16 @@ public class PlayerMovement : MonoBehaviour
         {
             enemy.Die();
         }
+        else
+        {
+            GetComponent<PlayerHealth>().TakeDamage();
+        }
     }
 
+    private void OnDrawGizmos()
+    {
+        Vector2 boxCenter = new Vector2(transform.position.x, transform.position.y + blockHitBoxOffset);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(boxCenter, blockHitBoxSize);
+    }
 }

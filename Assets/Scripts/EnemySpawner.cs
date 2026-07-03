@@ -80,6 +80,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (aliveEnemies.Count == 0 && spawnedCount >= totalToSpawn)
         {
+            GameManager.Instance.WaveCompleted();
             AdvanceWave();
         }
     }

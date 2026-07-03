@@ -227,7 +227,7 @@ MonoBehaviour:
   blockManager: {fileID: 0}
   layersToRaycastTo:
     serializedVersion: 2
-    m_Bits: 456
+    m_Bits: 136
   speed: 0.6
   speedStacks: 0
   maxSpeedStacks: 2

@@ -23,8 +23,15 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void ReloadLevel()
+    {
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        GameManager.instance.RefreshList();
+    }
+
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadSceneAsync(sceneName);
+        GameManager.instance.RefreshList();
     }
 }

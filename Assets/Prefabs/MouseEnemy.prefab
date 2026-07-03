@@ -224,6 +224,7 @@ MonoBehaviour:
   rb: {fileID: 2442985236764536636}
   sprite: {fileID: 7237549347683030197}
   spawner: {fileID: 0}
+  blockManager: {fileID: 0}
   layersToRaycastTo:
     serializedVersion: 2
     m_Bits: 136
@@ -240,6 +241,12 @@ MonoBehaviour:
   frogTimeBetweenHops: 1.2
   frogTimer: 0
   frogHorizontalSpeed: 3
+  flyHoverHeight: 1.2
+  flyRiseTime: 0.4
+  flyHoverTime: 2
+  flyIdleTime: 1.2
+  sawBoxSize: {x: 0.6, y: 0.4}
+  sawBoxDistance: 0.1
   groundCheckPosition: {fileID: 1933248489186976836}
   groundCheckSize: {x: 0.71, y: 0.02}
   groundLayer:

@@ -312,21 +312,15 @@ public class PlayerMovement : MonoBehaviour
         if (enemy != null && enemy.isKnockedOver)
         {
             enemy.Die();
+            Debug.Log("killed enemy");
         }
-        else if (enemy = null)
+        
+        if (enemy != null && !enemy.isKnockedOver)
         {
-            Debug.Log("enemy is null");
+            this.gameObject.GetComponent<PlayerHealth>().TakeDamage();
+            Debug.Log("player took damage");
         }
-        else if (enemy != null)
-        {
-            GetComponent<PlayerHealth>().TakeDamage();
-            Debug.Log("took damange");
-        }
-
-        if (CompareTag("Tilemap"))
-        {
-            Debug.Log("Collided with ground");
-        }
+            
     }
 
     private void OnDrawGizmos()

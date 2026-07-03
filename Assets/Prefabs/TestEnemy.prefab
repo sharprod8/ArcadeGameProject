@@ -224,9 +224,10 @@ MonoBehaviour:
   rb: {fileID: 2008548667835030464}
   sprite: {fileID: 7059562581195214079}
   spawner: {fileID: 0}
+  blockManager: {fileID: 0}
   layersToRaycastTo:
     serializedVersion: 2
-    m_Bits: 392
+    m_Bits: 136
   speed: 1
   speedStacks: 0
   maxSpeedStacks: 5
@@ -244,6 +245,8 @@ MonoBehaviour:
   flyRiseTime: 0.4
   flyHoverTime: 2
   flyIdleTime: 1.2
+  sawBoxSize: {x: 0.6, y: 0.4}
+  sawBoxDistance: 0.1
   groundCheckPosition: {fileID: 3210762608008592083}
   groundCheckSize: {x: 0.67, y: 0.02}
   groundLayer:

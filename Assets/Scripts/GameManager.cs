@@ -1,10 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
+using System.Linq;
+using Unity.VisualScripting;
 
+
+[System.Serializable]
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public int sharedLives = 3;
+    public string targetTag = "Player";
     public List<PlayerHealth> players = new List<PlayerHealth>();
 
     private void Awake()
@@ -26,10 +32,23 @@ public class GameManager : MonoBehaviour
             return;
 
         players.Add(player);
+
+        RefreshList();
+    }
+
+    public void RefreshList()
+    {
+        players.Clear();
+
+        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+        var filtered = allObjects.Where(o => o.CompareTag(targetTag));
+        players.AddRange(filtered);
     }
 
     public void PlayerDied(PlayerHealth player)
     {
+        player.gameObject.SetActive(false);
+        
         bool allDead = true;
 
         foreach (var p in players)
@@ -44,6 +63,7 @@ public class GameManager : MonoBehaviour
         if (allDead)
         {
             LoseLife();
+            LevelManager.instance.ReloadLevel();
         }
     }
 
@@ -61,6 +81,8 @@ public class GameManager : MonoBehaviour
         {
             p.FullRevive();
         }
+
+        RefreshList();
     }
 
     public void WaveCompleted()
@@ -70,5 +92,7 @@ public class GameManager : MonoBehaviour
             if (p.isDead)
                 p.ReviveWithOneHeart();
         }
+
+        RefreshList();
     }
 }

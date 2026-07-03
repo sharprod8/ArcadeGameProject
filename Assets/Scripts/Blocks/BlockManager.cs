@@ -24,7 +24,6 @@ public class BlockManager : MonoBehaviour
 
         if (tile == null || tile.data == null)
         {
-            Debug.Log("Tile considered null at " + tilePos);
             return;
         }
 
@@ -34,7 +33,6 @@ public class BlockManager : MonoBehaviour
         {
             case BlockData.BlockType.Normal:
                 BumpTile(tilePos);
-                Debug.Log("normal");
                 break;
 
             case BlockData.BlockType.OneTime:
@@ -66,7 +64,6 @@ public class BlockManager : MonoBehaviour
     private void BumpTile(Vector3Int pos)
     {
         StartCoroutine(BumpCoroutine(pos));
-        Debug.Log("Ran Matrix");
     }
 
     private void UseTile(Vector3Int pos, BlockData data)

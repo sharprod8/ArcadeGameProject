@@ -10,7 +10,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public int sharedLives = 3;
-    public string targetTag = "Player";
+    //public string targetTag = "Player";
+    
     public List<PlayerHealth> players = new List<PlayerHealth>();
 
     private void Awake()
@@ -28,22 +29,21 @@ public class GameManager : MonoBehaviour
 
     public void RegisterPlayer(PlayerHealth player)
     {
-        if (players.Contains(player))
-            return;
+
 
         players.Add(player);
 
-        RefreshList();
+        //RefreshList();
     }
 
-    public void RefreshList()
+    /*public void RefreshList()
     {
         players.Clear();
 
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
         var filtered = allObjects.Where(o => o.CompareTag(targetTag));
         players.AddRange(filtered);
-    }
+    }*/
 
     public void PlayerDied(PlayerHealth player)
     {
@@ -51,14 +51,14 @@ public class GameManager : MonoBehaviour
         
         bool allDead = true;
 
-        foreach (var p in players)
+        /*foreach (var p in players)
         {
             if (!p.isDead)
             {
                 allDead = false;
                 break;
             }
-        }
+        }*/
 
         if (allDead)
         {
@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
         if (sharedLives <= 0)
         {
             Debug.Log("GAME OVER");
+            LevelManager.instance.LoadScene("MainMenuScene");
             return;
         }
 
@@ -82,17 +83,17 @@ public class GameManager : MonoBehaviour
             p.FullRevive();
         }
 
-        RefreshList();
+        //RefreshList();
     }
 
     public void WaveCompleted()
     {
-        foreach (var p in players)
+        /*foreach (var p in players)
         {
             if (p.isDead)
                 p.ReviveWithOneHeart();
-        }
+        }*/
 
-        RefreshList();
+        //RefreshList();
     }
 }

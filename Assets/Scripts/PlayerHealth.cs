@@ -17,9 +17,16 @@ public class PlayerHealth : MonoBehaviour
         currentHearts = maxHearts;
         movement = GetComponent<PlayerMovement>();
         sprite = GetComponent<SpriteRenderer>();
+
+
+    }
+
+    private void Start()
+    {
+        GameManager.instance.players.Clear();
+        
         if (GameManager.instance != null)
             GameManager.instance.RegisterPlayer(this);
-
     }
 
     public void TakeDamage()

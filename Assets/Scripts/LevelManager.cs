@@ -26,12 +26,12 @@ public class LevelManager : MonoBehaviour
     public void ReloadLevel()
     {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-        GameManager.instance.RefreshList();
+        //GameManager.instance.RefreshList();
     }
 
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadSceneAsync(sceneName);
-        GameManager.instance.RefreshList();
+        //GameManager.instance.RefreshList();
     }
 }

@@ -18,6 +18,8 @@ public class WaveManager : MonoBehaviour
 
     private int currentWaveNumber = 1;
 
+    public TextMeshProUGUI coinCountUItext;
+
     private void Awake()
     {
         waveCounterCG.alpha = 0f;
@@ -86,5 +88,10 @@ public class WaveManager : MonoBehaviour
         currentWaveNumber = waveNumber;
         UpdateWaveUI();
         PlayOpeningWaveCounterAnimation();
+    }
+
+    public void ShowNewCoinUI(GameManager coin)
+    {
+        coinCountUItext.text = coin.ToString();
     }
 }

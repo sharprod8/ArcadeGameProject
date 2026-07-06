@@ -65,8 +65,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.546, y: 12.779, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.75, z: 0.5}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.75, y: 0.7, z: 0.5}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4857879176174607033}
   - {fileID: 6297424930972358811}
@@ -116,7 +116,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -4830660248509101871, guid: 1a6cec96f3c00894cbf1293e857bf06c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -165,7 +165,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.8, y: 0.98}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -340,18 +340,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 2366132061165381873}
   skidFX: {fileID: 7815074668325178882}
-  moveSpeed: 4
+  moveSpeed: 3.2
   jumpForce: 8
   lowJumpGravity: 1.2
   normalGravity: 2.5
   fallGravity: 4
   groundCheckPosition: {fileID: 4857879176174607033}
-  groundCheckSize: {x: 0.4, y: 0.02}
+  groundCheckSize: {x: 0.55, y: 0.05}
   groundLayer:
     serializedVersion: 2
     m_Bits: 72
-  blockHitBoxSize: {x: 0.47, y: 0.26}
-  blockHitBoxOffset: 0.45
+  blockHitBoxSize: {x: 0.55, y: 0.2}
+  blockHitBoxOffset: 0.35
   isSkidding: 0
   hasHitBlock: 0
 --- !u!114 &6238701006698123457

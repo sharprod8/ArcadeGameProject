@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEditor.SearchService;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 
 [System.Serializable]
@@ -11,7 +13,9 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public int sharedLives = 3;
     //public string targetTag = "Player";
-    
+
+    public int coinCount = 0;
+
     public List<PlayerHealth> players = new List<PlayerHealth>();
 
     private void Awake()
@@ -63,7 +67,8 @@ public class GameManager : MonoBehaviour
         if (allDead)
         {
             LoseLife();
-            LevelManager.instance.ReloadLevel();
+            if (sharedLives > 0)
+                LevelManager.instance.ReloadLevel();
         }
     }
 
@@ -74,7 +79,7 @@ public class GameManager : MonoBehaviour
         if (sharedLives <= 0)
         {
             Debug.Log("GAME OVER");
-            LevelManager.instance.LoadScene("MainMenuScene");
+            SceneManager.LoadScene(0);
             return;
         }
 
@@ -96,4 +101,11 @@ public class GameManager : MonoBehaviour
 
         //RefreshList();
     }
+
+    public void AddCoinToCount()
+    {
+        coinCount++;
+
+        WaveManager waveManager = GetComponent<WaveManager>();
+        waveManager.ShowNewCoinUI(coinCount);
 }

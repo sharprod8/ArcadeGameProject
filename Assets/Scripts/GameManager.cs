@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
@@ -12,6 +11,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public int sharedLives = 3;
+    public WaveManager waveManager;
     //public string targetTag = "Player";
 
     public int coinCount = 0;
@@ -38,6 +38,21 @@ public class GameManager : MonoBehaviour
         players.Add(player);
 
         //RefreshList();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        waveManager = FindObjectOfType<WaveManager>();
     }
 
     /*public void RefreshList()
@@ -105,7 +120,6 @@ public class GameManager : MonoBehaviour
     public void AddCoinToCount()
     {
         coinCount++;
-
-        WaveManager waveManager = GetComponent<WaveManager>();
         waveManager.ShowNewCoinUI(coinCount);
+    }
 }

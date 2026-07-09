@@ -90,7 +90,7 @@ public class WaveManager : MonoBehaviour
         PlayOpeningWaveCounterAnimation();
     }
 
-    public void ShowNewCoinUI(GameManager coin)
+    public void ShowNewCoinUI(int coin)
     {
         coinCountUItext.text = coin.ToString();
     }

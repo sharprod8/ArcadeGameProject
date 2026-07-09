@@ -7,6 +7,9 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody2D rb;
     public ParticleSystem skidFX;
 
+    public Transform keyFollowPoint;
+    public Key followingKey;
+
     [Header("Movement")]
     public float moveSpeed = 5f;
     private float horizontalMovement;

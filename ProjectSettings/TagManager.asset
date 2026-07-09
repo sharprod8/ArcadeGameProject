@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tilemap
   - Enemy
+  - Confiner
   layers:
   - Default
   - TransparentFX

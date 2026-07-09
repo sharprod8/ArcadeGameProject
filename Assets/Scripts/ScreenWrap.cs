@@ -6,32 +6,31 @@ using UnityEngine;
 public class ScreenWrap : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private BoxCollider2D confiner;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        confiner = GameManager.instance.confiner;
     }
 
     void Update()
     {
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
+        if (confiner == null)
+            return;
 
-        float rightSideOfScreenInWorld = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x;
-        float leftSideOfScreenInWorld = Camera.main.ScreenToWorldPoint(new Vector2(0f, 0f)).x;
+        Vector2 pos = transform.position;
 
-        float topOfScreenInWorld = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).y;
-        float bottomOfScreenInWorld = Camera.main.ScreenToWorldPoint(new Vector2(0f, 0f)).y;
+        float left = confiner.bounds.min.x;
+        float right = confiner.bounds.max.x;
 
-        //if moving thru left side of screen
-        if (screenPosition.x <= 0 && rb.linearVelocity.x < 0)
-        {
-            transform.position = new Vector2(rightSideOfScreenInWorld, transform.position.y);
-        }
+        if (pos.x < left && rb.linearVelocity.x < 0)
+            pos.x = right;
 
-        //if moving thru right side of screen
-        else if (screenPosition.x >= Screen.width && rb.linearVelocity.x > 0)
-        {
-            transform.position = new Vector2(leftSideOfScreenInWorld, transform.position.y);
-        }
+        else if (pos.x > right && rb.linearVelocity.x > 0)
+            pos.x = left;
+
+        transform.position = pos;
     }
+
 }

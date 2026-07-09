@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public int sharedLives = 3;
     public WaveManager waveManager;
+    public BoxCollider2D confiner;
     //public string targetTag = "Player";
 
     public int coinCount = 0;
@@ -52,6 +53,7 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        confiner = GameObject.FindGameObjectWithTag("Confiner").GetComponent<BoxCollider2D>();
         waveManager = FindObjectOfType<WaveManager>();
     }
 

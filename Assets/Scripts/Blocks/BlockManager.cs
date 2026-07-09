@@ -131,6 +131,9 @@ public class BlockManager : MonoBehaviour
 
     private IEnumerator BumpCoroutine(Vector3Int pos)
     {
+        if (tilemap == null)
+            yield break;
+
         //tiles original transform matrix
         Matrix4x4 originalMatrix = tilemap.GetTransformMatrix(pos);
 
@@ -147,6 +150,9 @@ public class BlockManager : MonoBehaviour
         //animate
         LeanTween.value(0f, 1f, x).setOnUpdate((float value) =>
         {
+            if (tilemap == null)
+                return;
+
             Vector3 newPos = Vector3.Lerp(originalPos, bumpPos, value);
 
             CheckEnemiesAbove(pos);
@@ -183,6 +189,9 @@ public class BlockManager : MonoBehaviour
     }
     private void CheckEnemiesAbove(Vector3Int pos)
     {
+        if (tilemap == null)
+            return;
+
         Vector3 worldPos = tilemap.GetCellCenterWorld(pos);
 
         Vector2 boxSize = new Vector2(0.9f, 0.5f);
@@ -198,6 +207,16 @@ public class BlockManager : MonoBehaviour
                 enemy.KnockOver();
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        LeanTween.cancel(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        tilemap = FindObjectOfType<Tilemap>();
     }
 
 }

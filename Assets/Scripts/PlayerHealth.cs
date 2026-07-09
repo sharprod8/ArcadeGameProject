@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -18,7 +19,8 @@ public class PlayerHealth : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         sprite = GetComponent<SpriteRenderer>();
 
-
+        WaveManager wm = FindObjectOfType<WaveManager>();
+        wm.UpdateHeartsUI(currentHearts);
     }
 
     private void Start()
@@ -35,6 +37,8 @@ public class PlayerHealth : MonoBehaviour
             return;
 
         currentHearts--;
+
+        FindObjectOfType<WaveManager>().UpdateHeartsUI(currentHearts);
 
         if (currentHearts <= 0)
         {
@@ -54,6 +58,8 @@ public class PlayerHealth : MonoBehaviour
 
         movement.enabled = true;
         sprite.enabled = true;
+        FindObjectOfType<WaveManager>().UpdateHeartsUI(currentHearts);
+
     }
 
     public void Die()
@@ -63,6 +69,7 @@ public class PlayerHealth : MonoBehaviour
         sprite.enabled = false;
 
         GameManager.instance.PlayerDied(this);
+        FindObjectOfType<WaveManager>().UpdateHeartsUI(currentHearts);
     }
 
     public void ReviveWithOneHeart()
@@ -74,6 +81,7 @@ public class PlayerHealth : MonoBehaviour
         sprite.enabled = true;
 
         transform.position = respawnPoint.position;
+        FindObjectOfType<WaveManager>().UpdateHeartsUI(currentHearts);
     }
 
     public void FullRevive()
@@ -85,5 +93,6 @@ public class PlayerHealth : MonoBehaviour
         sprite.enabled = true;
 
         transform.position = respawnPoint.position;
+        FindObjectOfType<WaveManager>().UpdateHeartsUI(currentHearts);
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaveManager : MonoBehaviour
 {
@@ -10,6 +11,10 @@ public class WaveManager : MonoBehaviour
     private TextMeshProUGUI waveCounterUItext;
     public Transform screenCenter;
     public Transform waveCounterPos;
+    
+    public Image[] heartImages;
+    public Sprite fullHeart;
+    public Sprite emptyHeart;
 
     private Vector3 doubleScale = new Vector3(2, 2, 1);
     private Vector3 halfScale = new Vector3(1, 1, 1);
@@ -93,5 +98,16 @@ public class WaveManager : MonoBehaviour
     public void ShowNewCoinUI(int coin)
     {
         coinCountUItext.text = coin.ToString();
+    }
+
+    public void UpdateHeartsUI(int hearts)
+    {
+        for (int i = 0; i < heartImages.Length; i++)
+        {
+            if (i < hearts)
+                heartImages[i].sprite = fullHeart;
+            else
+                heartImages[i].sprite = emptyHeart;
+        }
     }
 }

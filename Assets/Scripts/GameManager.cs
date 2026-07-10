@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.Tilemaps;
 
 
 [System.Serializable]
@@ -55,6 +56,8 @@ public class GameManager : MonoBehaviour
     {
         confiner = GameObject.FindGameObjectWithTag("Confiner").GetComponent<BoxCollider2D>();
         waveManager = FindObjectOfType<WaveManager>();
+        if (waveManager != null)
+            waveManager.ShowNewCoinUI(coinCount);
     }
 
     /*public void RefreshList()
@@ -108,16 +111,22 @@ public class GameManager : MonoBehaviour
         //RefreshList();
     }
 
-    public void WaveCompleted()
+    public void WaveCompleted(WaveData.WaveType type)
     {
-        /*foreach (var p in players)
+        switch (type)
         {
-            if (p.isDead)
-                p.ReviveWithOneHeart();
-        }*/
+            case WaveData.WaveType.Boss:
+                coinCount += 100;
+                break;
 
-        //RefreshList();
+            case WaveData.WaveType.Special:
+                coinCount += 20;
+                break;
+        }
+
+        waveManager.ShowNewCoinUI(coinCount);
     }
+
 
     public void AddCoinToCount()
     {

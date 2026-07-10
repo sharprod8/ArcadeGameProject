@@ -40,6 +40,16 @@ public class EnemySpawner : MonoBehaviour
         }
 
         waveManager.OnWaveStarted(index + 1);
+
+        waveManager.OnWaveNumberAnimationComplete = () =>
+        {
+            LeanTween.delayedCall(0.2f, () =>
+            {
+                waveManager.ShowWaveType(wave.waveType);
+            });
+        };
+
+
         StartCoroutine(SpawnWave(wave));
     }
 
@@ -80,7 +90,8 @@ public class EnemySpawner : MonoBehaviour
 
         if (aliveEnemies.Count == 0 && spawnedCount >= totalToSpawn)
         {
-            GameManager.instance.WaveCompleted();
+            WaveData wave = stage.waves[currentWaveIndex]; 
+            GameManager.instance.WaveCompleted(wave.waveType);
             AdvanceWave();
         }
     }

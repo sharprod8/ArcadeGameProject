@@ -8,6 +8,9 @@ public class WaveManager : MonoBehaviour
     public GameObject waveCounterUI;
     public CanvasGroup waveCounterCG;
 
+    public TextMeshProUGUI waveTypeText;
+    public CanvasGroup waveTypeCG;
+
     private TextMeshProUGUI waveCounterUItext;
     public Transform screenCenter;
     public Transform waveCounterPos;
@@ -24,6 +27,8 @@ public class WaveManager : MonoBehaviour
     private int currentWaveNumber = 1;
 
     public TextMeshProUGUI coinCountUItext;
+
+    public Action OnWaveNumberAnimationComplete;
 
     private void Awake()
     {
@@ -62,6 +67,7 @@ public class WaveManager : MonoBehaviour
                 LeanTween.move(waveCounterUI, waveCounterPos, 1).setEase(LeanTweenType.easeInOutCirc).setOnComplete(() =>
                 {
                     RunningOpeningWaveCounterAnimation = false;
+                    OnWaveNumberAnimationComplete?.Invoke();
                 }
                 );
             }
@@ -110,4 +116,28 @@ public class WaveManager : MonoBehaviour
                 heartImages[i].sprite = emptyHeart;
         }
     }
+
+    public void ShowWaveType(WaveData.WaveType type)
+    {
+        switch (type)
+        {
+            case WaveData.WaveType.Normal:
+                return;
+
+            case WaveData.WaveType.Boss:
+                waveTypeText.text = "BOSS WAVE!";
+                break;
+
+            case WaveData.WaveType.Special:
+                waveTypeText.text = "SPECIAL WAVE!";
+                break;
+        }
+
+        waveTypeCG.alpha = 0f;
+        LeanTween.alphaCanvas(waveTypeCG, 1f, 0.5f).setEaseOutExpo().setOnComplete(() =>
+        {
+            LeanTween.alphaCanvas(waveTypeCG, 0f, 0.5f).setEaseInExpo().setDelay(1f);
+        });
+    }
+
 }

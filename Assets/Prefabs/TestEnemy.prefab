@@ -230,7 +230,7 @@ MonoBehaviour:
     m_Bits: 136
   speed: 1
   speedStacks: 0
-  maxSpeedStacks: 5
+  maxSpeedStacks: 2
   startDirection: 1
   knockTimer: 0
   isKnockedOver: 0

@@ -49,6 +49,20 @@ public class EnemySpawner : MonoBehaviour
             });
         };
 
+        switch (wave.waveType)
+        {
+            case WaveData.WaveType.Normal:
+                MusicManager.instance.PlayDefault();
+                break;
+
+            case WaveData.WaveType.Boss:
+                MusicManager.instance.PlayBoss();
+                break;
+
+            case WaveData.WaveType.Special:
+                MusicManager.instance.PlaySpecial();
+                break;
+        }
 
         StartCoroutine(SpawnWave(wave));
     }
@@ -99,6 +113,7 @@ public class EnemySpawner : MonoBehaviour
     private void AdvanceWave()
     {
         currentWaveIndex++;
+        MusicManager.instance.PlayDefault();
 
         if (currentWaveIndex >= stage.waves.Length)
         {

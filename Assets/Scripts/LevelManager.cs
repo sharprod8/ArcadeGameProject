@@ -20,7 +20,16 @@ public class LevelManager : MonoBehaviour
 
     public void NextLevel()
     {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex + 1);
+        int current = SceneManager.GetActiveScene().buildIndex;
+        int next = current + 1;
+
+        if (next >= SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadSceneAsync(0);
+            return;
+        }
+
+        SceneManager.LoadSceneAsync(next);
     }
 
     public void ReloadLevel()
